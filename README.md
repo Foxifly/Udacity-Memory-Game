@@ -2,10 +2,10 @@
 
 ## Table of Contents
 
-* [Introduction](LINK)
-* [Dependencies](LINK)
-* [Demonstration](LINK)
-* [Credits](LINK)
+* [Introduction](https://github.com/Foxifly/Udacity-Memory-Game#introduction)
+* [Dependencies](https://github.com/Foxifly/Udacity-Memory-Game#dependencies)
+* [Demonstration](https://github.com/Foxifly/Udacity-Memory-Game#demonstration)
+* [Credits](https://github.com/Foxifly/Udacity-Memory-Game#credits)
 
 ## Introduction
 
