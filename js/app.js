@@ -1,7 +1,10 @@
 /*
  * Create a list that holds all of your cards
  */
-
+let card = $(".card");
+let openCardNum = 0;
+let isMatch = false;
+let openCards = [];
 const listOfCards = document.querySelectorAll(".card");
 //Returns a NodeList, not an array - need to loop across the list and push to an array.
 let cards = [];
@@ -33,8 +36,22 @@ function shuffle(array) {
   return array;
 }
 
-$(".card").on("click", function(event) {
-  alert("hello world");
+card.on("click", function() {
+  if (openCardNum < 2) {
+    let thisCard = $(this);
+    openCardNum++;
+    thisCard.addClass("show open");
+    openCards.push(thisCard);
+    console.log(openCards);
+  }
+  if (openCardNum == 2 && isMatch == false) {
+    for (let i = 0; i < openCards.length; i++) {
+      setTimeout(function() {
+        openCards[i].removeClass("show open");
+        console.log("dun");
+      }, 1000);
+    }
+  }
 });
 /*
  * set up the event listener for a card. If a card is clicked:
