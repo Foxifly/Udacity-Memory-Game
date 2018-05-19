@@ -44,20 +44,39 @@ card.on("click", function() {
     thisCard.addClass("show open");
     openCards.push(thisCard);
   }
-  if (openCardNum == 2 && isMatch == false) {
-    flipMeBack();
-    openCards = [];
-    openCardNum = 0;
+
+  if (openCardNum == 2) {
+    let cardOne = openCards[0][0].children[0].className;
+    let cardTwo = openCards[1][0].children[0].className;
+    if (cardOne === cardTwo) {
+      handleMatch();
+      openCards = [];
+      openCardNum = 0;
+    } else {
+      flipMeBack();
+      openCards = [];
+      openCardNum = 0;
+    }
   }
 });
 
 function flipMeBack() {
   openCards.forEach(flip => {
-    flip.removeClass("open");
-    flip.addClass("incorrect");
+    setTimeout(function() {
+      flip.removeClass("open");
+      flip.addClass("incorrect");
+    }, 750);
     setTimeout(function() {
       flip.removeClass("show incorrect");
-    }, 1000);
+    }, 1500);
+  });
+}
+
+function handleMatch() {
+  openCards.forEach(flip => {
+    setTimeout(function() {
+      flip.addClass("match");
+    }, 750);
   });
 }
 
