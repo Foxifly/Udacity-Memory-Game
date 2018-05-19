@@ -53,14 +53,14 @@ card.on("click", function() {
       openCards = [];
       openCardNum = 0;
     } else {
-      flipMeBack();
+      flipBack();
       openCards = [];
       openCardNum = 0;
     }
   }
 });
 
-function flipMeBack() {
+function flipBack() {
   openCards.forEach(flip => {
     setTimeout(function() {
       flip.removeClass("open");
