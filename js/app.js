@@ -5,6 +5,7 @@ let card = $(".card");
 let openCardNum = 0;
 let isMatch = false;
 let openCards = [];
+
 const listOfCards = document.querySelectorAll(".card");
 //Returns a NodeList, not an array - need to loop across the list and push to an array.
 let cards = [];
@@ -44,13 +45,22 @@ card.on("click", function() {
     openCards.push(thisCard);
   }
   if (openCardNum == 2 && isMatch == false) {
-    openCards.forEach(flip => {
-      setTimeout(function() {
-        flip.removeClass("show open");
-      }, 1000);
-    });
+    flipMeBack();
+    openCards = [];
+    openCardNum = 0;
   }
 });
+
+function flipMeBack() {
+  openCards.forEach(flip => {
+    flip.removeClass("open");
+    flip.addClass("incorrect");
+    setTimeout(function() {
+      flip.removeClass("show incorrect");
+    }, 1000);
+  });
+}
+
 /*
  * set up the event listener for a card. If a card is clicked:
  *  - display the card's symbol (put this functionality in another function that you call from this one)
