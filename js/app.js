@@ -27,6 +27,7 @@ let cardFaces = [
   "fa-bomb"
 ];
 shuffledCardFaces = [];
+let emptyCards = document.querySelectorAll(".card i");
 
 function newGame() {
   shuffle(cardFaces);
@@ -34,12 +35,13 @@ function newGame() {
 }
 
 function addCardFaces() {
-  for (let i = 0; i < cardFaces.length; i++) {
-    $(".card i.fa").addClass(cardFaces[i]);
-  }
+  shuffledCardFaces.forEach(face => {
+    emptyCards.forEach(item => {
+      item.className = `fa ${face}`;
+    });
+  });
 }
 
-newGame();
 const listOfCards = document.querySelectorAll(".card");
 //Returns a NodeList, not an array - need to loop across the list and push to an array.
 
@@ -68,9 +70,13 @@ function shuffle(array) {
     array[randomIndex] = temporaryValue;
   }
   shuffledCardFaces = array;
-  return array;
   console.log(shuffledCardFaces);
 }
+
+document.body.onload = newGame();
+//
+
+//
 
 card.on("click", function() {
   if (openCardNum < 2) {
