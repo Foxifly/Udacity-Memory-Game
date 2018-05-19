@@ -5,13 +5,47 @@ let card = $(".card");
 let openCardNum = 0;
 let isMatch = false;
 let openCards = [];
+let cards = [];
+let cardFaces = [
+  "fa-diamond",
+  "fa-diamond",
+  "fa-paper-plane-o",
+  "fa-paper-plane-o",
+  "fa-anchor",
+  "fa-anchor",
+  "fa-bolt",
+  "fa-bolt",
+  "fa-cube",
+  "fa-cube",
+  "fa-anchor",
+  "fa-anchor",
+  "fa-leaf",
+  "fa-leaf",
+  "fa-bicycle",
+  "fa-bicycle",
+  "fa-bomb",
+  "fa-bomb"
+];
+shuffledCardFaces = [];
 
+function newGame() {
+  shuffle(cardFaces);
+  addCardFaces();
+}
+
+function addCardFaces() {
+  for (let i = 0; i < cardFaces.length; i++) {
+    $(".card i.fa").addClass(cardFaces[i]);
+  }
+}
+
+newGame();
 const listOfCards = document.querySelectorAll(".card");
 //Returns a NodeList, not an array - need to loop across the list and push to an array.
-let cards = [];
-for (let i = 0; i < listOfCards.length; i++) {
-  cards.push(listOfCards[i]);
-}
+
+// for (let i = 0; i < listOfCards.length; i++) {
+//   cards.push(listOfCards[i]);
+// }
 
 /*
  * Display the cards on the page
@@ -33,8 +67,9 @@ function shuffle(array) {
     array[currentIndex] = array[randomIndex];
     array[randomIndex] = temporaryValue;
   }
-
+  shuffledCardFaces = array;
   return array;
+  console.log(shuffledCardFaces);
 }
 
 card.on("click", function() {
@@ -65,7 +100,7 @@ function flipBack() {
     setTimeout(function() {
       flip.removeClass("open");
       flip.addClass("incorrect");
-    }, 750);
+    }, 500);
     setTimeout(function() {
       flip.removeClass("show incorrect");
     }, 1500);
@@ -76,7 +111,7 @@ function handleMatch() {
   openCards.forEach(flip => {
     setTimeout(function() {
       flip.addClass("match");
-    }, 750);
+    }, 500);
   });
 }
 
