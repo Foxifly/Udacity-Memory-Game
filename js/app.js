@@ -42,15 +42,13 @@ card.on("click", function() {
     openCardNum++;
     thisCard.addClass("show open");
     openCards.push(thisCard);
-    console.log(openCards);
   }
   if (openCardNum == 2 && isMatch == false) {
-    for (let i = 0; i < openCards.length; i++) {
+    openCards.forEach(flip => {
       setTimeout(function() {
-        openCards[i].removeClass("show open");
-        console.log("dun");
+        flip.removeClass("show open");
       }, 1000);
-    }
+    });
   }
 });
 /*
