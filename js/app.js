@@ -17,8 +17,6 @@ let cardFaces = [
   "fa-bolt",
   "fa-cube",
   "fa-cube",
-  "fa-anchor",
-  "fa-anchor",
   "fa-leaf",
   "fa-leaf",
   "fa-bicycle",
@@ -35,11 +33,12 @@ function newGame() {
 }
 
 function addCardFaces() {
-  shuffledCardFaces.forEach(face => {
-    emptyCards.forEach(item => {
-      item.className = `fa ${face}`;
-    });
-  });
+  //for each item in the empty card array, I want to add a class name based on the other array.
+
+  for (let i = 0; i < emptyCards.length; i++) {
+    let indexFaces = shuffledCardFaces[i];
+    emptyCards[i].className = `fa ${indexFaces}`;
+  }
 }
 
 const listOfCards = document.querySelectorAll(".card");
