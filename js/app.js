@@ -2,6 +2,7 @@
  * Create a list that holds all of your cards
  */
 let card = $(".card");
+let moves = 0;
 let openCardNum = 0;
 let isMatch = false;
 let openCards = [];
@@ -30,11 +31,11 @@ let emptyCards = document.querySelectorAll(".card i");
 function newGame() {
   shuffle(cardFaces);
   addCardFaces();
+  moves = 0;
 }
 
 function addCardFaces() {
   //for each item in the empty card array, I want to add a class name based on the other array.
-
   for (let i = 0; i < emptyCards.length; i++) {
     let indexFaces = shuffledCardFaces[i];
     emptyCards[i].className = `fa ${indexFaces}`;
@@ -86,6 +87,8 @@ card.on("click", function() {
   }
 
   if (openCardNum == 2) {
+    moves++;
+    handleMoves();
     let cardOne = openCards[0][0].children[0].className;
     let cardTwo = openCards[1][0].children[0].className;
     if (cardOne === cardTwo) {
@@ -118,6 +121,14 @@ function handleMatch() {
       flip.addClass("match");
     }, 500);
   });
+}
+
+function handleMoves() {
+  if (moves == 1) {
+    document.querySelector(".moves").textContent = `${moves} Move`;
+  } else {
+    document.querySelector(".moves").textContent = `${moves} Moves`;
+  }
 }
 
 /*
