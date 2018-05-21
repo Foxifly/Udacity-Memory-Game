@@ -98,6 +98,9 @@ card.on("click", function() {
         handleMatch();
         openCards = [];
         openCardNum = 0;
+        setTimeout(function() {
+          monitorCompletion();
+        }, 2000);
       } else {
         flipBack();
         openCards = [];
@@ -129,6 +132,16 @@ function handleMatch() {
   });
 }
 
+function monitorCompletion() {
+  let allCards = document.querySelectorAll(".card");
+  let matchedCards = document.querySelectorAll(".card.match");
+  if (allCards.length === matchedCards.length) {
+    alert("GAME OVER!");
+  } else {
+    console.log("Not complete");
+  }
+}
+
 function handleMoves() {
   if (moves == 1) {
     document.querySelector(".moves").textContent = `${moves} Move`;
@@ -137,7 +150,6 @@ function handleMoves() {
   }
 }
 
-function completionCheck() {}
 /*
  * set up the event listener for a card. If a card is clicked:
  *  - display the card's symbol (put this functionality in another function that you call from this one)
