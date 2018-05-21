@@ -77,40 +77,45 @@ document.body.onload = newGame();
 //
 
 //
+let cardPrevious;
 
 card.on("click", function() {
-  if (openCardNum < 2) {
-    let thisCard = $(this);
-    openCardNum++;
-    thisCard.addClass("show open");
-    openCards.push(thisCard);
-  }
+  console.log(this.className);
+  if (this !== cardPrevious && this.className !== "card match") {
+    if (openCardNum < 2) {
+      let thisCard = $(this);
+      openCardNum++;
+      thisCard.toggleClass("show open");
+      openCards.push(thisCard);
+    }
 
-  if (openCardNum == 2) {
-    moves++;
-    handleMoves();
-    let cardOne = openCards[0][0].children[0].className;
-    let cardTwo = openCards[1][0].children[0].className;
-    if (cardOne === cardTwo) {
-      handleMatch();
-      openCards = [];
-      openCardNum = 0;
-    } else {
-      flipBack();
-      openCards = [];
-      openCardNum = 0;
+    if (openCardNum == 2) {
+      moves++;
+      handleMoves();
+      let cardOne = openCards[0][0].children[0].className;
+      let cardTwo = openCards[1][0].children[0].className;
+      if (cardOne === cardTwo) {
+        handleMatch();
+        openCards = [];
+        openCardNum = 0;
+      } else {
+        flipBack();
+        openCards = [];
+        openCardNum = 0;
+      }
     }
   }
+  cardPrevious = this;
 });
 
 function flipBack() {
   openCards.forEach(flip => {
     setTimeout(function() {
-      flip.removeClass("open");
-      flip.addClass("incorrect");
+      flip.toggleClass("open");
+      flip.toggleClass("incorrect");
     }, 500);
     setTimeout(function() {
-      flip.removeClass("show incorrect");
+      flip.toggleClass("show incorrect");
     }, 1500);
   });
 }
@@ -118,7 +123,8 @@ function flipBack() {
 function handleMatch() {
   openCards.forEach(flip => {
     setTimeout(function() {
-      flip.addClass("match");
+      flip.toggleClass("open show");
+      flip.toggleClass("match");
     }, 500);
   });
 }
@@ -131,6 +137,7 @@ function handleMoves() {
   }
 }
 
+function completionCheck() {}
 /*
  * set up the event listener for a card. If a card is clicked:
  *  - display the card's symbol (put this functionality in another function that you call from this one)
