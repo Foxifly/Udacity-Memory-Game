@@ -1,12 +1,6 @@
-/*
- * Create a list that holds all of your cards
- */
-let card = $(".card");
 let moves = 0;
 let openCardNum = 0;
-let isMatch = false;
 let openCards = [];
-let cards = [];
 let cardFaces = [
   "fa-diamond",
   "fa-diamond",
@@ -25,13 +19,22 @@ let cardFaces = [
   "fa-bomb",
   "fa-bomb"
 ];
+const listOfCards = document.querySelectorAll(".card");
 shuffledCardFaces = [];
 let emptyCards = document.querySelectorAll(".card i");
 
 function newGame() {
-  shuffle(cardFaces);
-  addCardFaces();
-  moves = 0;
+  setTimeout(function() {
+    for (let i = 0; i < listOfCards.length; i++) {
+      listOfCards[i].className = "card";
+    }
+    shuffle(cardFaces);
+    addCardFaces();
+    moves = 0;
+    handleMoves();
+    openCardNum = 0;
+    openCards = [];
+  }, 500);
 }
 
 function addCardFaces() {
@@ -42,19 +45,7 @@ function addCardFaces() {
   }
 }
 
-const listOfCards = document.querySelectorAll(".card");
 //Returns a NodeList, not an array - need to loop across the list and push to an array.
-
-// for (let i = 0; i < listOfCards.length; i++) {
-//   cards.push(listOfCards[i]);
-// }
-
-/*
- * Display the cards on the page
- *   - shuffle the list of cards using the provided "shuffle" method below
- *   - loop through each card and create its HTML
- *   - add each card's HTML to the page
- */
 
 // Shuffle function from http://stackoverflow.com/a/2450976
 function shuffle(array) {
@@ -70,7 +61,6 @@ function shuffle(array) {
     array[randomIndex] = temporaryValue;
   }
   shuffledCardFaces = array;
-  console.log(shuffledCardFaces);
 }
 
 document.body.onload = newGame();
@@ -78,8 +68,11 @@ document.body.onload = newGame();
 
 //
 let cardPrevious;
+$(".restart").on("click", function() {
+  newGame();
+});
 
-card.on("click", function() {
+$(".card").on("click", function() {
   console.log(this.className);
   if (this !== cardPrevious && this.className !== "card match") {
     if (openCardNum < 2) {
@@ -119,7 +112,7 @@ function flipBack() {
     }, 500);
     setTimeout(function() {
       flip.toggleClass("show incorrect");
-    }, 1500);
+    }, 1000);
   });
 }
 
@@ -151,15 +144,13 @@ function handleMoves() {
   }
 }
 
-let stars = document.getElementsByClassName("star");
-
 function handleRating() {
-  //16 cards in the game, 8 moves if perfect,
-  if (moves == 12) {
+  let stars = document.getElementsByClassName("star");
+  if (moves == 14) {
     stars[2].children[0].className = "fa fa-star-o";
-  } else if (moves == 18) {
+  } else if (moves == 20) {
     stars[1].children[0].className = "fa fa-star-o";
-  } else if (moves == 24) {
+  } else if (moves == 26) {
     stars[0].children[0].className = "fa fa-star-o";
   }
 }
