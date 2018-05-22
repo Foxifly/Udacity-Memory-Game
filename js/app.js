@@ -175,8 +175,14 @@ function updateTime() {
 
 function clearTimer() {
   clearInterval(timeInterval);
+  // shouldn't you touch the div element here
+  //fuck do i need to call into updateTime?
+  // in updatetime, you're usingsecondElapsed. Are you supposed to erase that too here?
   seconds = 0;
   minutes = 0;
+  secondsElapsed = 0;
+  let timer = document.getElementsByClassName("timer")[0];
+  timer.textContent = `${minutes} m ${seconds} s`;
 }
 function handleModal() {
   modal.innerHTML = `
