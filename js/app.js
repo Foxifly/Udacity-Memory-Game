@@ -1,20 +1,51 @@
-/*
- * Create a list that holds all of your cards
- */
-
+let moves = 0;
+let openCardNum = 0;
+let openCards = [];
+let cardFaces = [
+  "fa-diamond",
+  "fa-diamond",
+  "fa-paper-plane-o",
+  "fa-paper-plane-o",
+  "fa-anchor",
+  "fa-anchor",
+  "fa-bolt",
+  "fa-bolt",
+  "fa-cube",
+  "fa-cube",
+  "fa-leaf",
+  "fa-leaf",
+  "fa-bicycle",
+  "fa-bicycle",
+  "fa-bomb",
+  "fa-bomb"
+];
 const listOfCards = document.querySelectorAll(".card");
-//Returns a NodeList, not an array - need to loop across the list and push to an array.
-let cards = [];
-for (let i = 0; i < listOfCards.length; i++) {
-  cards.push(listOfCards[i]);
+shuffledCardFaces = [];
+let emptyCards = document.querySelectorAll(".card i");
+
+function newGame() {
+  setTimeout(function() {
+    for (let i = 0; i < listOfCards.length; i++) {
+      listOfCards[i].className = "card";
+    }
+    shuffle(cardFaces);
+    addCardFaces();
+    moves = 0;
+    handleMoves();
+    openCardNum = 0;
+    openCards = [];
+  }, 500);
 }
 
-/*
- * Display the cards on the page
- *   - shuffle the list of cards using the provided "shuffle" method below
- *   - loop through each card and create its HTML
- *   - add each card's HTML to the page
- */
+function addCardFaces() {
+  //for each item in the empty card array, I want to add a class name based on the other array.
+  for (let i = 0; i < emptyCards.length; i++) {
+    let indexFaces = shuffledCardFaces[i];
+    emptyCards[i].className = `fa ${indexFaces}`;
+  }
+}
+
+//Returns a NodeList, not an array - need to loop across the list and push to an array.
 
 // Shuffle function from http://stackoverflow.com/a/2450976
 function shuffle(array) {
@@ -29,13 +60,113 @@ function shuffle(array) {
     array[currentIndex] = array[randomIndex];
     array[randomIndex] = temporaryValue;
   }
-
-  return array;
+  shuffledCardFaces = array;
 }
 
-$(".card").on("click", function(event) {
-  alert("hello world");
+document.body.onload = newGame();
+//
+
+//
+let cardPrevious;
+$(".restart").on("click", function() {
+  newGame();
 });
+
+$(".card").on("click", function() {
+  console.log(this.className);
+  if (this !== cardPrevious && this.className !== "card match") {
+    if (openCardNum < 2) {
+      let thisCard = $(this);
+      openCardNum++;
+      thisCard.toggleClass("show open");
+      openCards.push(thisCard);
+    }
+
+    if (openCardNum == 2) {
+      moves++;
+      handleMoves();
+      let cardOne = openCards[0][0].children[0].className;
+      let cardTwo = openCards[1][0].children[0].className;
+      if (cardOne === cardTwo) {
+        handleMatch();
+        openCards = [];
+        openCardNum = 0;
+        setTimeout(function() {
+          monitorCompletion();
+        }, 2000);
+      } else {
+        flipBack();
+        openCards = [];
+        openCardNum = 0;
+      }
+    }
+  }
+  cardPrevious = this;
+});
+
+function flipBack() {
+  openCards.forEach(flip => {
+    setTimeout(function() {
+      flip.toggleClass("open");
+      flip.toggleClass("incorrect");
+    }, 500);
+    setTimeout(function() {
+      flip.toggleClass("show incorrect");
+    }, 1000);
+  });
+}
+
+function handleMatch() {
+  openCards.forEach(flip => {
+    setTimeout(function() {
+      flip.toggleClass("open show");
+      flip.toggleClass("match");
+    }, 500);
+  });
+}
+
+function monitorCompletion() {
+  let allCards = document.querySelectorAll(".card");
+  let matchedCards = document.querySelectorAll(".card.match");
+  if (allCards.length === matchedCards.length) {
+    alert("GAME OVER!");
+  } else {
+    console.log("Not complete");
+  }
+}
+
+function handleMoves() {
+  handleRating();
+  if (moves == 1) {
+    document.querySelector(".moves").textContent = `${moves} Move`;
+  } else {
+    document.querySelector(".moves").textContent = `${moves} Moves`;
+  }
+}
+
+function handleRating() {
+  let stars = document.getElementsByClassName("star");
+  if (moves == 14) {
+    stars[2].children[0].className = "fa fa-star-o";
+  } else if (moves == 20) {
+    stars[1].children[0].className = "fa fa-star-o";
+  } else if (moves == 26) {
+    stars[0].children[0].className = "fa fa-star-o";
+  }
+}
+let close = document.getElementsByClassName("close")[0];
+function handleModal() {
+  modal.style.display = "flex";
+  close.onclick = function() {
+    modal.style.display = "none";
+  };
+  window.onclick = function(event) {
+    if (event.target == modal) {
+      modal.style.display = "none";
+    }
+  };
+}
+
 /*
  * set up the event listener for a card. If a card is clicked:
  *  - display the card's symbol (put this functionality in another function that you call from this one)
