@@ -1,4 +1,5 @@
 let moves = 0;
+let starCount = 5;
 let openCardNum = 0;
 let secondsElapsed = 0;
 let seconds = 0;
@@ -79,7 +80,6 @@ $(".restart").on("click", function() {
 });
 
 $(".card").on("click", function() {
-  console.log(this.className);
   if (this !== cardPrevious && this.className !== "card match") {
     if (openCardNum < 2) {
       let thisCard = $(this);
@@ -135,9 +135,8 @@ function monitorCompletion() {
   let allCards = document.querySelectorAll(".card");
   let matchedCards = document.querySelectorAll(".card.match");
   if (allCards.length === matchedCards.length) {
-    alert("GAME OVER!");
-  } else {
-    console.log("Not complete");
+    handleModal();
+    stopTimer();
   }
 }
 
@@ -153,11 +152,17 @@ function handleMoves() {
 function handleRating() {
   let stars = document.getElementsByClassName("star");
   if (moves == 14) {
+    stars[4].children[0].className = "fa fa-star-o";
+    starCount--;
+  } else if (moves == 18) {
+    stars[3].children[0].className = "fa fa-star-o";
+    starCount--;
+  } else if (moves == 22) {
     stars[2].children[0].className = "fa fa-star-o";
-  } else if (moves == 20) {
-    stars[1].children[0].className = "fa fa-star-o";
+    starCount--;
   } else if (moves == 26) {
-    stars[0].children[0].className = "fa fa-star-o";
+    stars[1].children[0].className = "fa fa-star-o";
+    starCount--;
   }
 }
 
@@ -175,14 +180,15 @@ function updateTime() {
 
 function clearTimer() {
   clearInterval(timeInterval);
-  // shouldn't you touch the div element here
-  //fuck do i need to call into updateTime?
-  // in updatetime, you're usingsecondElapsed. Are you supposed to erase that too here?
   seconds = 0;
   minutes = 0;
   secondsElapsed = 0;
   let timer = document.getElementsByClassName("timer")[0];
   timer.textContent = `${minutes} m ${seconds} s`;
+}
+
+function stopTimer() {
+  clearInterval(timeInterval);
 }
 function handleModal() {
   modal.innerHTML = `
@@ -191,8 +197,8 @@ function handleModal() {
     <div class="modal-text">
       <h2>Congratulations</h2>
       <h3>${moves} Moves</h3>
-      <h3>${moves} Stars</h3>
-      <h3>Time</h3>
+      <h3>${starCount} Stars</h3>
+      <h3>${minutes} m ${seconds} s</h3>
       <h3>Prize Value:</h3>
       <h3>Score Multiplier:</h3>
       <h2>TOTAL:</h2>
