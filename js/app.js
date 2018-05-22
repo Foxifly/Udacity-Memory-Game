@@ -1,5 +1,9 @@
 let moves = 0;
 let openCardNum = 0;
+let secondsElapsed = 0;
+let seconds = 0;
+let timeInterval = 0;
+let minutes = 0;
 let openCards = [];
 let cardFaces = [
   "fa-diamond",
@@ -34,6 +38,7 @@ function newGame() {
     handleMoves();
     openCardNum = 0;
     openCards = [];
+    startTimer();
   }, 500);
 }
 
@@ -69,6 +74,7 @@ document.body.onload = newGame();
 //
 let cardPrevious;
 $(".restart").on("click", function() {
+  clearTimer();
   newGame();
 });
 
@@ -154,8 +160,40 @@ function handleRating() {
     stars[0].children[0].className = "fa fa-star-o";
   }
 }
-let close = document.getElementsByClassName("close")[0];
+
+function startTimer() {
+  timeInterval = setInterval(updateTime, 1000);
+}
+
+function updateTime() {
+  secondsElapsed++;
+  seconds = Math.floor(secondsElapsed % 60);
+  minutes = Math.floor(secondsElapsed / 60);
+  let timer = document.getElementsByClassName("timer")[0];
+  timer.textContent = `${minutes} m ${seconds} s`;
+}
+
+function clearTimer() {
+  clearInterval(timeInterval);
+  seconds = 0;
+  minutes = 0;
+}
 function handleModal() {
+  modal.innerHTML = `
+  <div class="modal-content">
+    <span class="close"><i class="fa fa-times"></i></span>
+    <div class="modal-text">
+      <h2>Congratulations</h2>
+      <h3>${moves} Moves</h3>
+      <h3>${moves} Stars</h3>
+      <h3>Time</h3>
+      <h3>Prize Value:</h3>
+      <h3>Score Multiplier:</h3>
+      <h2>TOTAL:</h2>
+      </div>
+
+    </div>`;
+  let close = document.getElementsByClassName("close")[0];
   modal.style.display = "flex";
   close.onclick = function() {
     modal.style.display = "none";
