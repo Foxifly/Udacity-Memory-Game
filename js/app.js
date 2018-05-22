@@ -143,10 +143,24 @@ function monitorCompletion() {
 }
 
 function handleMoves() {
+  handleRating();
   if (moves == 1) {
     document.querySelector(".moves").textContent = `${moves} Move`;
   } else {
     document.querySelector(".moves").textContent = `${moves} Moves`;
+  }
+}
+
+let stars = document.getElementsByClassName("star");
+
+function handleRating() {
+  //16 cards in the game, 8 moves if perfect,
+  if (moves == 12) {
+    stars[2].children[0].className = "fa fa-star-o";
+  } else if (moves == 18) {
+    stars[1].children[0].className = "fa fa-star-o";
+  } else if (moves == 24) {
+    stars[0].children[0].className = "fa fa-star-o";
   }
 }
 
