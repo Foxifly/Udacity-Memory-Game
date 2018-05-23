@@ -7,8 +7,8 @@ let timeInterval = 0;
 let minutes = 0;
 let openCards = [];
 let cardFaces = [
-  "fa-diamond",
-  "fa-diamond",
+  "<i class='fa fa-dollar'><p>10</p></i>",
+  "<i class='fa fa-dollar'><p>10</p></i>",
   "fa-paper-plane-o",
   "fa-paper-plane-o",
   "fa-anchor",
@@ -22,7 +22,11 @@ let cardFaces = [
   "fa-bicycle",
   "fa-bicycle",
   "fa-bomb",
-  "fa-bomb"
+  "fa-bomb",
+  "fa-bug",
+  "fa-bug",
+  "fa-dollar",
+  "fa-dollar"
 ];
 const listOfCards = document.querySelectorAll(".card");
 shuffledCardFaces = [];
@@ -44,7 +48,6 @@ function newGame() {
 }
 
 function addCardFaces() {
-  //for each item in the empty card array, I want to add a class name based on the other array.
   for (let i = 0; i < emptyCards.length; i++) {
     let indexFaces = shuffledCardFaces[i];
     emptyCards[i].className = `fa ${indexFaces}`;
@@ -70,9 +73,7 @@ function shuffle(array) {
 }
 
 document.body.onload = newGame();
-//
 
-//
 let cardPrevious;
 $(".restart").on("click", function() {
   clearTimer();
@@ -151,16 +152,16 @@ function handleMoves() {
 
 function handleRating() {
   let stars = document.getElementsByClassName("star");
-  if (moves == 14) {
+  if (moves == 16) {
     stars[4].children[0].className = "fa fa-star-o";
     starCount--;
-  } else if (moves == 18) {
+  } else if (moves == 22) {
     stars[3].children[0].className = "fa fa-star-o";
     starCount--;
-  } else if (moves == 22) {
+  } else if (moves == 28) {
     stars[2].children[0].className = "fa fa-star-o";
     starCount--;
-  } else if (moves == 26) {
+  } else if (moves == 34) {
     stars[1].children[0].className = "fa fa-star-o";
     starCount--;
   }

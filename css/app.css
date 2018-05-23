@@ -17,7 +17,8 @@ body {
 }
 
 body {
-  background: #ffffff url("../img/geometry2.png"); /* Background pattern from Subtle Patterns */
+  background: #ffffff url("../img/geometry2.png");
+  /* Background pattern from Subtle Patterns */
   font-family: "Coda", cursive;
 }
 
@@ -28,22 +29,37 @@ body {
   flex-direction: column;
 }
 
-h1 {
-  font-family: "Open Sans", sans-serif;
-  font-weight: 300;
+.lottery-container {
+  width: 50%;
+  background: linear-gradient(160deg, #682f57 0%, #bca2b4 100%);
+  box-shadow: 12px 15px 20px 0 rgba(46, 61, 73, 0.5);
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
 }
 
-/*
- * Styles for the deck of cards
- */
+h1 {
+  font-family: "Open Sans", sans-serif;
+  font-weight: bolder;
+  color: #18582b;
+  font-size: 60px;
+  text-align: center;
+  line-height: 45px;
+  text-shadow: 3px 0 0 #d4e9da, -3px 0 0 #d4e9da, 0 3px 0 #d4e9da,
+    0 -3px 0 #d4e9da, 2px 2px #d4e9da, -2px -2px 0 #d4e9da, 2px -2px 0 #d4e9da,
+    -2px 2px 0 #d4e9da;
+  font-family: "Passion One", cursive;
+}
+header {
+  width: 100%;
+}
 
 .deck {
   width: 660px;
   min-height: 680px;
-  background: linear-gradient(160deg, #02ccba 0%, #aa7ecd 100%);
   padding: 32px;
   border-radius: 10px;
-  box-shadow: 12px 15px 20px 0 rgba(46, 61, 73, 0.5);
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
@@ -51,13 +67,15 @@ h1 {
   margin: 0 0 3em;
 }
 
+.multiplier,
 .deck .card {
-  height: 125px;
-  width: 125px;
+  height: 110px;
+  width: 110px;
+  border-radius: 500px;
   background: #2e3d49;
   font-size: 0;
   color: #ffffff;
-  border-radius: 8px;
+
   cursor: pointer;
   display: flex;
   justify-content: center;
@@ -118,7 +136,7 @@ h1 {
   display: none;
   flex-wrap: wrap;
   position: fixed;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgba(0, 0, 0, 0.6);
   z-index: 1;
   left: 0;
   top: 0;
