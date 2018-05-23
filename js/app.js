@@ -1,6 +1,5 @@
 let moves = 0;
 let starCount = 5;
-let openCardNum = 0;
 let secondsElapsed = 0;
 let seconds = 0;
 let timeInterval = 0;
@@ -39,7 +38,6 @@ function newGame() {
     addCardFaces();
     moves = 0;
     handleMoves();
-    openCardNum = 0;
     openCards = [];
     startTimer();
   }, 500);
@@ -80,14 +78,14 @@ $(".restart").on("click", function() {
 
 $(".card").on("click", function() {
   if (this !== cardPrevious && this.className !== "card match") {
-    if (openCardNum < 2) {
+    if (openCards.length < 2) {
       let thisCard = $(this);
-      openCardNum++;
+
       thisCard.toggleClass("show open");
       openCards.push(thisCard);
     }
 
-    if (openCardNum == 2) {
+    if (openCards.length == 2) {
       moves++;
       handleMoves();
       let cardOne = openCards[0][0].children[0].className;
@@ -95,14 +93,12 @@ $(".card").on("click", function() {
       if (cardOne === cardTwo) {
         handleMatch();
         openCards = [];
-        openCardNum = 0;
         setTimeout(function() {
           monitorCompletion();
         }, 2000);
       } else {
         flipBack();
         openCards = [];
-        openCardNum = 0;
       }
     }
   }
