@@ -7,30 +7,28 @@ let timeInterval = 0;
 let minutes = 0;
 let openCards = [];
 let cardFaces = [
-  "<i class='fa fa-dollar'><p>10</p></i>",
-  "<i class='fa fa-dollar'><p>10</p></i>",
-  "fa-paper-plane-o",
-  "fa-paper-plane-o",
-  "fa-anchor",
-  "fa-anchor",
-  "fa-bolt",
-  "fa-bolt",
-  "fa-cube",
-  "fa-cube",
-  "fa-leaf",
-  "fa-leaf",
-  "fa-bicycle",
-  "fa-bicycle",
-  "fa-bomb",
-  "fa-bomb",
-  "fa-bug",
-  "fa-bug",
-  "fa-dollar",
-  "fa-dollar"
+  "fa-money-bill-wave",
+  "fa-money-bill-wave",
+  "fa-sun",
+  "fa-sun",
+  "fa-rocket",
+  "fa-rocket",
+  "fa-gem",
+  "fa-gem",
+  "fa-dice",
+  "fa-dice",
+  "fa-trophy",
+  "fa-trophy",
+  "fa-bell",
+  "fa-bell",
+  "fa-dollar-sign",
+  "fa-dollar-sign",
+  "fa-crown",
+  "fa-crown"
 ];
 const listOfCards = document.querySelectorAll(".card");
 shuffledCardFaces = [];
-let emptyCards = document.querySelectorAll(".card i");
+let emptyCards = document.querySelectorAll(".card");
 
 function newGame() {
   setTimeout(function() {
@@ -50,7 +48,7 @@ function newGame() {
 function addCardFaces() {
   for (let i = 0; i < emptyCards.length; i++) {
     let indexFaces = shuffledCardFaces[i];
-    emptyCards[i].className = `fa ${indexFaces}`;
+    emptyCards[i].innerHTML = `<i class="fa ${indexFaces}"></i>`;
   }
 }
 
