@@ -31,9 +31,10 @@ let emptyCards = document.querySelectorAll(".card");
 
 function newGame() {
   setTimeout(function() {
-    for (let i = 0; i < listOfCards.length; i++) {
-      listOfCards[i].className = "card";
-    }
+    listOfCards.forEach(card => {
+      card.className = "card";
+    });
+
     shuffle(cardFaces);
     addCardFaces();
     moves = 0;
