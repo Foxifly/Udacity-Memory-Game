@@ -94,17 +94,26 @@ $(".restart").on("click", function() {
   newGame();
 });
 let multiplierValue = 0;
-let multiplierIndex = Math.floor(Math.random() * multiplierOptions.length);
-let thisMultiplier = multiplierOptions[multiplierIndex];
+let multiplierIndex;
+
 $(".multiplier").on("click", function() {
   let thisCard = $(this);
   console.log(thisCard);
-  thisCard[0].innerHTML = `<i class="fa ${thisMultiplier}"></i>`;
-  thisCard[0].className = "multiplier show open";
+  if (thisCard[0].className !== "multiplier show open") {
+    resetMultiplier();
+    thisCard[0].innerHTML = `<i class="fa ${
+      multiplierOptions[multiplierIndex]
+    }"></i>`;
+    thisCard[0].className = "multiplier show open";
+  }
+});
+function resetMultiplier() {
+  console.log($(this)[0].className);
+  $(this)[0].className = "multiplier";
+  multiplierIndex = Math.floor(Math.random() * multiplierOptions.length);
   if (multiplierIndex >= 0 && multiplierIndex <= 3) {
     multiplierValue = 0;
   } else if (multiplierIndex >= 4 && multiplierIndex <= 6) {
-    //index 0 - 3 = bomb | index 4 - 6 = 1 | index 7-9  = 2 | 10 = 3 | 11 = 4 \ 12 = 5 | 13 = 6
     multiplierValue = 1;
   } else if (multiplierIndex >= 7 && multiplierIndex <= 9) {
     multiplierValue = 2;
@@ -117,7 +126,7 @@ $(".multiplier").on("click", function() {
   } else if (multiplierIndex == 13) {
     multiplierValue = 6;
   }
-});
+}
 
 $(".card").on("click", function() {
   if (this !== cardPrevious && this.className !== "card match") {
@@ -213,7 +222,13 @@ function updateTime() {
   seconds = Math.floor(secondsElapsed % 60);
   minutes = Math.floor(secondsElapsed / 60);
   let timer = document.getElementsByClassName("timer")[0];
-  timer.textContent = `${minutes} m ${seconds} s`;
+  if (minutes < 10 && seconds < 10) {
+    timer.textContent = `0${minutes} : 0${seconds} `;
+  } else if (minutes < 10) {
+    timer.textContent = `0${minutes} : ${seconds} `;
+  } else if (seconds < 10) {
+    timer.textContent = `${minutes} : 0${seconds} `;
+  }
 }
 
 function clearTimer() {
@@ -222,7 +237,13 @@ function clearTimer() {
   minutes = 0;
   secondsElapsed = 0;
   let timer = document.getElementsByClassName("timer")[0];
-  timer.textContent = `${minutes} m ${seconds} s`;
+  if (minutes < 10 && seconds < 10) {
+    timer.textContent = `0${minutes} : 0${seconds} `;
+  } else if (minutes < 10) {
+    timer.textContent = `0${minutes} : ${seconds} `;
+  } else if (seconds < 10) {
+    timer.textContent = `${minutes} : 0${seconds} `;
+  }
 }
 
 function stopTimer() {

@@ -31,25 +31,26 @@ body {
 
 .lottery-container {
   width: 50%;
-  background: linear-gradient(160deg, #682f57 0%, #bca2b4 100%);
+  background: linear-gradient(160deg, #1b0926 0%, #1b0926 100%);
   box-shadow: 12px 15px 20px 0 rgba(46, 61, 73, 0.5);
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   align-items: center;
+  border: 10px solid #8f739f;
+  border-radius: 10px;
 }
 
 h1 {
   font-family: "Open Sans", sans-serif;
+  margin: 0 0 10px 0;
   font-weight: bolder;
-  color: #18582b;
+  color: #ffcc00;
   font-size: 60px;
+  letter-spacing: 3px;
   text-align: center;
-  line-height: 45px;
-  text-shadow: 3px 0 0 #d4e9da, -3px 0 0 #d4e9da, 0 3px 0 #d4e9da,
-    0 -3px 0 #d4e9da, 2px 2px #d4e9da, -2px -2px 0 #d4e9da, 2px -2px 0 #d4e9da,
-    -2px 2px 0 #d4e9da;
-  font-family: "Passion One", cursive;
+
+  font-family: "Bangers", cursive;
 }
 header {
   width: 100%;
@@ -58,13 +59,13 @@ header {
 .deck {
   width: 660px;
   min-height: 400px;
-  padding: 32px;
+  padding: 32px 32px 0px 32px;
   border-radius: 10px;
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
   align-items: center;
-  margin: 0 0 3em;
+  margin: 0 0 2em 0;
 }
 
 .deck .multiplier,
@@ -72,7 +73,7 @@ header {
   height: 90px;
   width: 90px;
   border-radius: 500px;
-  background: #2e3d49;
+  background: #e3bc65;
   font-size: 0;
   color: #ffffff;
   cursor: pointer;
@@ -80,6 +81,9 @@ header {
   justify-content: center;
   align-items: center;
   box-shadow: 5px 2px 20px 0 rgba(46, 61, 73, 0.5);
+  background-image: url(http://www.free-icons-download.net/images/dollar-sign-icons-74073.png);
+  background-size: cover;
+  border: 5px dashed #e37d65;
 }
 
 .multiplier-container {
@@ -96,8 +100,9 @@ header {
 .multiplier.open,
 .deck .card.open {
   transform: rotateY(0);
-  background: #02b3e4;
+  background: #7d65e3;
   cursor: default;
+  border: none;
 }
 .multiplier.show,
 .deck .card.show {
@@ -106,14 +111,16 @@ header {
 
 .deck .card.match {
   cursor: default;
-  background: #02ccba;
+  background: #658ce3;
   font-size: 33px;
+  border: none;
 }
 
 .deck .card.incorrect {
   cursor: default;
-  background: red;
+  background: #e3658c;
   font-size: 33px;
+  border: none;
 }
 
 /*
@@ -136,11 +143,6 @@ header {
 .score-panel .stars li {
   list-style: none;
   display: inline-block;
-}
-
-.score-panel .restart {
-  float: right;
-  cursor: pointer;
 }
 
 .modal {
@@ -167,4 +169,40 @@ header {
 .close {
   cursor: pointer;
   float: right;
+}
+
+.moves,
+.timer,
+.restart {
+  color: white;
+  width: 50%;
+  text-align: center;
+}
+
+.stars {
+  width: 100%;
+  text-align: center;
+}
+.score-panel,
+.dashboard {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  width: 100%;
+  font-family: "Bubblegum Sans";
+  font-size: 24px;
+}
+
+.stars {
+  font-family: "Bubblegum Sans";
+  font-size: 24px;
+  color: white;
+}
+
+.restart {
+  width: 100%;
+  cursor: pointer;
+  text-align: right;
+  margin: 15px 15px 0 0;
+  padding: 0;
 }
