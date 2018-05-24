@@ -25,6 +25,24 @@ let cardFaces = [
   "fa-crown",
   "fa-crown"
 ];
+
+let multiplierOptions = [
+  //index 0 - 3 = bomb | index 4 - 6 = 1 | index 7-9  = 2 | 10 = 3 | 11 = 4 \ 12 = 5 | 13 = 6
+  "fa-bomb",
+  "fa-bomb",
+  "fa-bomb",
+  "fa-bomb",
+  "fa-dice-one",
+  "fa-dice-one",
+  "fa-dice-one",
+  "fa-dice-two",
+  "fa-dice-two",
+  "fa-dice-two",
+  "fa-dice-three",
+  "fa-dice-four",
+  "fa-dice-five",
+  "fa-dice-six"
+];
 const listOfCards = document.querySelectorAll(".card");
 shuffledCardFaces = [];
 let emptyCards = document.querySelectorAll(".card");
@@ -34,7 +52,6 @@ function newGame() {
     listOfCards.forEach(card => {
       card.className = "card";
     });
-
     shuffle(cardFaces);
     addCardFaces();
     moves = 0;
@@ -75,6 +92,31 @@ let cardPrevious;
 $(".restart").on("click", function() {
   clearTimer();
   newGame();
+});
+let multiplierValue = 0;
+let multiplierIndex = Math.floor(Math.random() * multiplierOptions.length);
+let thisMultiplier = multiplierOptions[multiplierIndex];
+$(".multiplier").on("click", function() {
+  let thisCard = $(this);
+  console.log(thisCard);
+  thisCard[0].innerHTML = `<i class="fa ${thisMultiplier}"></i>`;
+  thisCard[0].className = "multiplier show open";
+  if (multiplierIndex >= 0 && multiplierIndex <= 3) {
+    multiplierValue = 0;
+  } else if (multiplierIndex >= 4 && multiplierIndex <= 6) {
+    //index 0 - 3 = bomb | index 4 - 6 = 1 | index 7-9  = 2 | 10 = 3 | 11 = 4 \ 12 = 5 | 13 = 6
+    multiplierValue = 1;
+  } else if (multiplierIndex >= 7 && multiplierIndex <= 9) {
+    multiplierValue = 2;
+  } else if (multiplierIndex == 10) {
+    multiplierValue = 3;
+  } else if (multiplierIndex == 11) {
+    multiplierValue = 4;
+  } else if (multiplierIndex == 12) {
+    multiplierValue = 5;
+  } else if (multiplierIndex == 13) {
+    multiplierValue = 6;
+  }
 });
 
 $(".card").on("click", function() {
