@@ -162,6 +162,8 @@ function resetMultiplier() {
 		(multiplierValue = 4) : multiplierIndex === 12 ?
 		(multiplierValue = 5) : multiplierIndex == 13 ?
 		(multiplierValue = 6) : (multiplierValue = 0);
+    multiplierValue == 0 ? handleBombModal() : multiplierValue;
+
 }
 
 
@@ -254,16 +256,24 @@ function stopTimer() {
 */
 
 function handleModal() {
+  let addHTML = "";
+  for (let i = 0; i < starCount; i++) {
+    addHTML +=  '<li class="star"><i class="fa fa-star"></i></li> '
+  }
+  if (multiplierIsClicked && multiplierValue == 0) {
+    multiplierValue = "BOMB!";
+  }
+  console.log(addHTML);
 	modal.innerHTML = `
   <div class="modal-content">
     <span class="close"><i class="fa fa-times"></i></span>
     <div class="modal-text">
       <h2>Congratulations</h2>
       <h3>${moveCount} Moves</h3>
-      <h3>${starCount} Stars</h3>
+      <ul class="star-display">${addHTML}</ul>
       <h3>Time: ${document.getElementsByClassName("timer")[0].textContent}</h3>
-      <h3>Prize Value: $45,000</h3>
-      <h3>Score Multiplier: ${multiplierValue} X</h3>
+      <h4>Prize Value: $45,000</h4>
+      <h4>Score Multiplier: ${multiplierValue} X</h4>
       <h2>TOTAL: ${totalScore}</h2>
       </div>
 
@@ -280,6 +290,30 @@ function handleModal() {
 	};
 }
 
+function handleBombModal() {
+modal.style.display = "flex";
+	modal.innerHTML = `
+  <div class="modal-content">
+    <span class="close"><i class="fa fa-times"></i></span>
+    <div class="modal-text">
+      <h2 class="lose">YOU LOSE!</h2>
+      <p class="bomb-modal"><i class="fa fa-skull"></i><i class="fa fa-bomb"></i><i class="fa fa-skull"></i></p>
+    </div>
+    <button class="try-again">Try Again</button>
+    `;
+
+    let tryAgain = document.getElementsByClassName("try-again")[0];
+    tryAgain.onclick = function () {
+      modal.style.display = "none";
+      resetMultiplier();
+      clearTimer();
+      newGame();
+
+
+
+
+	};
+}
 /**
 * S C O R I N G
 

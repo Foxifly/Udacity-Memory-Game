@@ -18,8 +18,14 @@ body {
 
 body {
   background: #ffffff url("../img/geometry2.png");
-  /* Background pattern from Subtle Patterns */
-  font-family: "Coda", cursive;
+}
+
+h2 {
+  color: green;
+  font-family: "Bangers";
+  font-size: 38px;
+  text-align: center;
+  letter-spacing: 2px;
 }
 
 .container {
@@ -49,7 +55,6 @@ h1 {
   font-size: 60px;
   letter-spacing: 3px;
   text-align: center;
-
   font-family: "Bangers", cursive;
 }
 header {
@@ -128,12 +133,22 @@ header {
 /*
  * Styles for the Score Panel
  */
-
+.star-display li,
 .score-panel .stars li {
   list-style: none;
   display: inline-block;
 }
 
+.star-display {
+  padding: 0;
+}
+
+.lose {
+  color: red;
+}
+p.bomb-modal {
+  font-size: 30px;
+}
 .modal {
   display: none;
   flex-wrap: wrap;
@@ -147,7 +162,25 @@ header {
   overflow: auto;
 }
 
+.try-again {
+  background-color: #1b0926;
+  color: white;
+  font-size: 20px;
+  font-family: "Bubblegum Sans";
+  padding: 10px 20px 10px 20px;
+  border-radius: 10px;
+}
+.try-again:hover {
+  background-color: #483a51;
+  color: white;
+
+  border-radius: 10px;
+  transition: ease 0.5s;
+  cursor: pointer;
+}
+
 .modal-content {
+  text-align: center;
   background-color: #fefefe;
   margin: auto;
   padding: 20px;
