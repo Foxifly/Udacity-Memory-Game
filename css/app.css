@@ -147,13 +147,14 @@ header {
   color: red;
 }
 p.bomb-modal {
-  font-size: 30px;
+  font-size: 40px;
+  color: #483a51;
 }
 .modal {
   display: none;
   flex-wrap: wrap;
   position: fixed;
-  background-color: rgba(0, 0, 0, 0.6);
+  background-color: rgba(0, 0, 0, 0.7);
   z-index: 1;
   left: 0;
   top: 0;
@@ -181,11 +182,13 @@ p.bomb-modal {
 
 .modal-content {
   text-align: center;
-  background-color: #fefefe;
+  background-color: rgba(255, 255, 255, 0.9);
   margin: auto;
   padding: 20px;
   border: 1px solid #888;
-  width: 50%;
+  border-radius: 10px;
+  width: 30%;
+
 }
 
 .close {
@@ -228,4 +231,9 @@ p.bomb-modal {
   text-align: right;
   margin: 15px 15px 0 0;
   padding: 0;
+}
+
+h3 {
+  font-family: "Bubblegum Sans";
+  font-size: 20px;
 }

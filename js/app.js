@@ -297,7 +297,8 @@ modal.style.display = "flex";
     <span class="close"><i class="fa fa-times"></i></span>
     <div class="modal-text">
       <h2 class="lose">YOU LOSE!</h2>
-      <p class="bomb-modal"><i class="fa fa-skull"></i><i class="fa fa-bomb"></i><i class="fa fa-skull"></i></p>
+      <h3>Instead of a multiplier, you've uncovered a bomb!<br>Please try again!</h3>
+      <p class="bomb-modal"><i class="fa fa-skull"></i> <i class="fa fa-bomb"></i> <i class="fa fa-skull"></i></p>
     </div>
     <button class="try-again">Try Again</button>
     `;
