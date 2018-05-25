@@ -1,4 +1,4 @@
-let moves = 0;
+let moveCount = 0;
 let starCount = 5;
 let secondsElapsed = 0;
 let seconds = 0;
@@ -54,7 +54,7 @@ function newGame() {
     });
     shuffle(cardFaces);
     addCardFaces();
-    moves = 0;
+    moveCount = 0;
     handleMoves();
     openCards = [];
     startTimer();
@@ -137,7 +137,7 @@ $(".card").on("click", function() {
     }
 
     if (openCards.length == 2) {
-      moves++;
+      moveCount++;
       handleMoves();
       let cardOne = openCards[0][0].children[0].className;
       let cardTwo = openCards[1][0].children[0].className;
@@ -181,6 +181,7 @@ function monitorCompletion() {
   let allCards = document.querySelectorAll(".card");
   let matchedCards = document.querySelectorAll(".card.match");
   if (allCards.length === matchedCards.length) {
+    moveScore();
     handleModal();
     stopTimer();
   }
@@ -188,25 +189,25 @@ function monitorCompletion() {
 
 function handleMoves() {
   handleRating();
-  if (moves == 1) {
-    document.querySelector(".moves").textContent = `${moves} Move`;
+  if (moveCount == 1) {
+    document.querySelector(".moves").textContent = `${moveCount} Move`;
   } else {
-    document.querySelector(".moves").textContent = `${moves} Moves`;
+    document.querySelector(".moves").textContent = `${moveCount} Moves`;
   }
 }
 
 function handleRating() {
   let stars = document.getElementsByClassName("star");
-  if (moves == 16) {
+  if (moveCount == 16) {
     stars[4].children[0].className = "fa fa-star-o";
     starCount--;
-  } else if (moves == 22) {
+  } else if (moveCount == 22) {
     stars[3].children[0].className = "fa fa-star-o";
     starCount--;
-  } else if (moves == 28) {
+  } else if (moveCount == 28) {
     stars[2].children[0].className = "fa fa-star-o";
     starCount--;
-  } else if (moves == 34) {
+  } else if (moveCount == 34) {
     stars[1].children[0].className = "fa fa-star-o";
     starCount--;
   }
@@ -254,7 +255,7 @@ function handleModal() {
     <span class="close"><i class="fa fa-times"></i></span>
     <div class="modal-text">
       <h2>Congratulations</h2>
-      <h3>${moves} Moves</h3>
+      <h3>${moveCount} Moves</h3>
       <h3>${starCount} Stars</h3>
       <h3>${minutes} m ${seconds} s</h3>
       <h3>Prize Value:</h3>
@@ -274,14 +275,23 @@ function handleModal() {
     }
   };
 }
+let totalScore = 0;
+function moveScore() {
+  if (starCount === 5 && moveCount === 9) {
+    totalScore += 12500;
+  } else {
+    starCount === 5
+      ? (totalScore += 2500)
+      : starCount === 3
+        ? (totalScore -= 2500)
+        : starCount === 2
+          ? (totalScore -= 7500)
+          : starCount === 1 ? (totalScore -= 12500) : (totalScore += 0);
+  }
+}
 
-/*
- * set up the event listener for a card. If a card is clicked:
- *  - display the card's symbol (put this functionality in another function that you call from this one)
- *  - add the card to a *list* of "open" cards (put this functionality in another function that you call from this one)
- *  - if the list already has another card, check to see if the two cards match
- *    + if the cards do match, lock the cards in the open position (put this functionality in another function that you call from this one)
- *    + if the cards do not match, remove the cards from the list and hide the card's symbol (put this functionality in another function that you call from this one)
- *    + increment the move counter and display it on the page (put this functionality in another function that you call from this one)
- *    + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
- */
+function timeScore() {}
+
+function handleFinalScore() {}
+
+//NEED TO FIX STAR COUNT ON RESET GAME
