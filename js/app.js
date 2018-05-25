@@ -172,8 +172,24 @@ function resetMultiplier() {
 
 *@description handler for the move counter and for the rating assignment.
 */
+let star = {
+  count: 5,
+  bonus: false,
+  bonusAmount: 0,
+  string: ""
+};
+
+let time = {
+  seconds: 0,
+  minutes: 0,
+  secondsElapsed: 0,
+  interval: 0,
+  bonus: false,
+  bonusAmount: 0,
+  string: ""
+}
+
 let moveCount = 0;
-let starCount = 5;
 
 function handleMoves() {
 	handleRating();
@@ -188,16 +204,16 @@ function handleRating() {
 	let stars = document.getElementsByClassName("star");
 	if (moveCount == 16) {
 		stars[4].children[0].className = "fa fa-star-o";
-		starCount--;
+		star.count--;
 	} else if (moveCount == 22) {
 		stars[3].children[0].className = "fa fa-star-o";
-		starCount--;
+		star.count--;
 	} else if (moveCount == 28) {
 		stars[2].children[0].className = "fa fa-star-o";
-		starCount--;
+		star.count--;
 	} else if (moveCount == 34) {
 		stars[1].children[0].className = "fa fa-star-o";
-		starCount--;
+		star.count--;
 	}
 
 }
@@ -213,40 +229,40 @@ let timeInterval = 0;
 let minutes = 0;
 
 function startTimer() {
-	timeInterval = setInterval(updateTime, 1000);
+	time.interval = setInterval(updateTime, 1000);
 }
 
 function updateTime() {
-	secondsElapsed++;
-	seconds = Math.floor(secondsElapsed % 60);
-	minutes = Math.floor(secondsElapsed / 60);
+	time.secondsElapsed++;
+	time.seconds = Math.floor(time.secondsElapsed % 60);
+	time.minutes = Math.floor(time.secondsElapsed / 60);
 	let timer = document.getElementsByClassName("timer")[0];
-	if (minutes < 10 && seconds < 10) {
-		timer.textContent = `0${minutes} : 0${seconds} `;
-	} else if (minutes < 10) {
-		timer.textContent = `0${minutes} : ${seconds} `;
-	} else if (seconds < 10) {
+	if (time.minutes < 10 && time.seconds < 10) {
+		timer.textContent = `0${time.minutes} : 0${time.seconds} `;
+	} else if (time.minutes < 10) {
+		timer.textContent = `0${time.minutes} : ${time.seconds} `;
+	} else if (time.secomds < 10) {
 		timer.textContent = `${minutes} : 0${seconds} `;
 	}
 }
 
 function clearTimer() {
-	clearInterval(timeInterval);
-	seconds = 0;
-	minutes = 0;
-	secondsElapsed = 0;
+	clearInterval(time.interval);
+	time.seconds = 0;
+	time.minutes = 0;
+	time.secondsElapsed = 0;
 	let timer = document.getElementsByClassName("timer")[0];
-	if (minutes < 10 && seconds < 10) {
-		timer.textContent = `0${minutes} : 0${seconds} `;
-	} else if (minutes < 10) {
-		timer.textContent = `0${minutes} : ${seconds} `;
-	} else if (seconds < 10) {
-		timer.textContent = `${minutes} : 0${seconds} `;
+	if (time.minutes < 10 && time.seconds < 10) {
+		timer.textContent = `0${time.minutes} : 0${time.seconds} `;
+	} else if (time.minutes < 10) {
+		timer.textContent = `0${time.minutes} : ${time.seconds} `;
+	} else if (time.seconds < 10) {
+		timer.textContent = `${time.minues} : 0${time.seconds} `;
 	}
 }
 
 function stopTimer() {
-	clearInterval(timeInterval);
+	clearInterval(time.interval);
 }
 
 /**
@@ -254,25 +270,24 @@ function stopTimer() {
 
 *@description When the game is complete, a modal will pop up congratulating the user and giving the final score value along with the break down of each item (move count, stars, time, etc)
 */
-
 function handleModal() {
+
   let addHTML = "";
-  for (let i = 0; i < starCount; i++) {
+  for (let i = 0; i < star.count; i++) {
     addHTML +=  '<li class="star"><i class="fa fa-star"></i></li> '
   }
-  if (multiplierIsClicked && multiplierValue == 0) {
-    multiplierValue = "BOMB!";
-  }
-  console.log(addHTML);
+  star.bonus === true ? star.string = "Bonus" : star.string  = "Penalty";
+  time.bonus === true ? time.string = "Bonus" : time.string  = "Penalty";
 	modal.innerHTML = `
   <div class="modal-content">
     <span class="close"><i class="fa fa-times"></i></span>
     <div class="modal-text">
       <h2>Congratulations</h2>
-      <h3>${moveCount} Moves</h3>
-      <ul class="star-display">${addHTML}</ul>
-      <h3>Time: ${document.getElementsByClassName("timer")[0].textContent}</h3>
+      <ul class="star-display">${addHTML} <br> ${moveCount} Moves <br> ${document.getElementsByClassName("timer")[0].textContent}</ul>
       <h4>Prize Value: $45,000</h4>
+      <h4>Star ${star.string}: $45,000</h4>
+      <h4>Time ${time.string}: $45,000</h4>
+
       <h4>Score Multiplier: ${multiplierValue} X</h4>
       <h2>TOTAL: ${totalScore}</h2>
       </div>
@@ -323,27 +338,30 @@ modal.style.display = "flex";
 let totalScore = 0;
 
 function moveScore() {
-	if (starCount === 5 && moveCount === 9) {
+	if (star.count === 5 && moveCount === 9) {
 		totalScore += 12500;
+
 	} else {
-		starCount === 5 ?
+		star.count === 5 ?
 			(totalScore += 2500) :
-			starCount === 3 ?
+			star.count === 3 ?
 			(totalScore -= 2500) :
-			starCount === 2 ?
+			star.count === 2 ?
 			(totalScore -= 7500) :
-			starCount === 1 ? (totalScore -= 12500) : (totalScore += 0);
+			star.count === 1 ? (totalScore -= 12500) : (totalScore += 0);
 	}
+  star.count >= 4 ? star.bonus = true : star.bonus = false;
 }
 
 function timeScore() {
-	minutes <= 2 ?
+	time.secondsElapsed <= 60 ?
 		(totalScore += 5000) :
-		minutes <= 5 ?
+		time.minutes <= 120 ?
 		(totalScore += 2500) :
-		minutes <= 7 ?
+		time.minutes <= 180 ?
 		(totalScore += 0) :
-		minutes <= 10 ? (totalScore -= 2500) : (totalScore -= 5000);
+		time.minutes <= 240 ? (totalScore -= 2500) : (totalScore -= 5000);
+  time.minutes <= 180 ? time.bonus = true : time.bonus = false;
 }
 
 function handleFinalScore() {

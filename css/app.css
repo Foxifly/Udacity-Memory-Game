@@ -137,10 +137,13 @@ header {
 .score-panel .stars li {
   list-style: none;
   display: inline-block;
+
 }
 
 .star-display {
   padding: 0;
+  font-size: 20px;
+  font-family: "Bubblegum Sans";
 }
 
 .lose {
