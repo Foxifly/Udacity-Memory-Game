@@ -108,8 +108,7 @@ $(".multiplier").on("click", function() {
   }
 });
 function resetMultiplier() {
-  console.log($(this)[0].className);
-  $(this)[0].className = "multiplier";
+  document.getElementsByClassName("multiplier")[0].className = "multiplier";
   multiplierIndex = Math.floor(Math.random() * multiplierOptions.length);
   if (multiplierIndex >= 0 && multiplierIndex <= 3) {
     multiplierValue = 0;

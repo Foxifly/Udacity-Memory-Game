@@ -68,7 +68,7 @@ header {
   margin: 0 0 2em 0;
 }
 
-.deck .multiplier,
+.multiplier,
 .deck .card {
   height: 90px;
   width: 90px;
@@ -86,17 +86,19 @@ header {
   border: 5px dashed #e37d65;
 }
 
-.multiplier-container {
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.deck .multiplier {
+.multiplier {
   height: 50px;
   width: 50px;
+  margin: 0 auto;
 }
+
+.multiplier-container p {
+  color: white;
+  font-size: 20px;
+  font-family: "Bubblegum Sans";
+  margin: 5px;
+}
+
 .multiplier.open,
 .deck .card.open {
   transform: rotateY(0);
@@ -126,19 +128,6 @@ header {
 /*
  * Styles for the Score Panel
  */
-
-.score-panel {
-  text-align: left;
-  width: 345px;
-  margin-bottom: 10px;
-}
-
-.score-panel .stars {
-  margin: 0;
-  padding: 0;
-  display: inline-block;
-  margin: 0 5px 0 0;
-}
 
 .score-panel .stars li {
   list-style: none;
@@ -179,15 +168,11 @@ header {
   text-align: center;
 }
 
-.stars {
-  width: 100%;
-  text-align: center;
-}
 .score-panel,
 .dashboard {
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
+  justify-content: flex-start;
   width: 100%;
   font-family: "Bubblegum Sans";
   font-size: 24px;
@@ -197,6 +182,11 @@ header {
   font-family: "Bubblegum Sans";
   font-size: 24px;
   color: white;
+}
+.star-container,
+.multiplier-container {
+  width: 50%;
+  text-align: center;
 }
 
 .restart {
