@@ -1,5 +1,7 @@
 let moveCount = 0;
+let totalScore = 0;
 let starCount = 5;
+let multiplierIsClicked = false;
 let secondsElapsed = 0;
 let seconds = 0;
 let timeInterval = 0;
@@ -105,6 +107,7 @@ $(".multiplier").on("click", function() {
       multiplierOptions[multiplierIndex]
     }"></i>`;
     thisCard[0].className = "multiplier show open";
+    multiplierIsClicked = true;
   }
 });
 function resetMultiplier() {
@@ -181,7 +184,8 @@ function monitorCompletion() {
   let allCards = document.querySelectorAll(".card");
   let matchedCards = document.querySelectorAll(".card.match");
   if (allCards.length === matchedCards.length) {
-    moveScore();
+    totalScore = 45000;
+    handleFinalScore();
     handleModal();
     stopTimer();
   }
@@ -275,7 +279,7 @@ function handleModal() {
     }
   };
 }
-let totalScore = 0;
+
 function moveScore() {
   if (starCount === 5 && moveCount === 9) {
     totalScore += 12500;
@@ -290,8 +294,22 @@ function moveScore() {
   }
 }
 
-function timeScore() {}
+function timeScore() {
+  minutes <= 2
+    ? (totalScore += 5000)
+    : minutes <= 5
+      ? (totalScore += 2500)
+      : minutes <= 7
+        ? (totalScore += 0)
+        : minutes <= 10 ? (totalScore -= 2500) : (totalScore -= 5000);
+}
 
-function handleFinalScore() {}
+function handleFinalScore() {
+  moveScore();
+  timeScore();
+  if (multiplierIsClicked === true) {
+    totalScore *= multiplierValue;
+  }
+}
 
 //NEED TO FIX STAR COUNT ON RESET GAME
