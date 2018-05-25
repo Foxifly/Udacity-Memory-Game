@@ -261,10 +261,10 @@ function handleModal() {
       <h2>Congratulations</h2>
       <h3>${moveCount} Moves</h3>
       <h3>${starCount} Stars</h3>
-      <h3>${minutes} m ${seconds} s</h3>
-      <h3>Prize Value:</h3>
-      <h3>Score Multiplier:</h3>
-      <h2>TOTAL:</h2>
+      <h3>Time: ${document.getElementsByClassName("timer")[0].textContent}</h3>
+      <h3>Prize Value: $45,000</h3>
+      <h3>Score Multiplier: ${multiplierValue} X</h3>
+      <h2>TOTAL: ${totalScore}</h2>
       </div>
 
     </div>`;
@@ -279,6 +279,12 @@ function handleModal() {
     }
   };
 }
+
+/**
+* S C O R I N G
+
+*@description Three functions that are used to calculate the total user score. This score will translate to the amount of 'money' gained from the lottery. It takes into account the move count, minute count, and the multiplier at the bottom of the board.If the multiplier isn't clicked, it will just calculate the score based on the move score and time score.
+*/
 
 function moveScore() {
   if (starCount === 5 && moveCount === 9) {
