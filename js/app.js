@@ -1,15 +1,43 @@
 document.body.onload = newGame();
+let time = {
+	seconds: 0,
+	minutes: 0,
+	secondsElapsed: 0,
+	interval: 0,
+	bonus: false,
+	bonusAmount: 0,
+	string: ""
+}
+
+let move = {
+	count: 0,
+	fiveStarPerfect: 12500,
+	fiveStar: 2500,
+	fourStar: 0,
+	threeStar: -2500,
+	twoStar: -7500,
+	oneStar: -12500,
+}
+
+let cards = {
+  list: document.querySelectorAll(".card"),
+  open: [],
+  faces:  [
+    "fa-money-bill-wave", "fa-money-bill-wave", "fa-sun", "fa-sun", "fa-rocket", "fa-rocket", "fa-gem", "fa-gem", "fa-dice", "fa-dice", "fa-trophy", "fa-trophy", "fa-bell", "fa-bell", "fa-dollar-sign", "fa-dollar-sign", "fa-crown", "fa-crown"
+  ],
+  shuffledFaces: []
+}
 
 function newGame() {
 	setTimeout(function () {
-		listOfCards.forEach(card => {
+		cards.list.forEach(card => {
 			card.className = "card";
 		});
-		shuffle(cardFaces);
+		shuffle(cards.faces);
 		addCardFaces();
-		moveCount = 0;
+		move.count = 0;
 		handleMoves();
-		openCards = [];
+		cards.open = [];
 		startTimer();
 	}, 500);
 }
@@ -25,19 +53,13 @@ $(".restart").on("click", function () {
 
 *@description Flip, click, and completion handlers for each card and its match.
 */
-const listOfCards = document.querySelectorAll(".card");
 
-let emptyCards = document.querySelectorAll(".card");
-shuffledCardFaces = [];
-
-let cardFaces = [
-  "fa-money-bill-wave", "fa-money-bill-wave", "fa-sun", "fa-sun", "fa-rocket", "fa-rocket", "fa-gem", "fa-gem", "fa-dice", "fa-dice", "fa-trophy", "fa-trophy", "fa-bell", "fa-bell", "fa-dollar-sign", "fa-dollar-sign", "fa-crown", "fa-crown"
-];
+cards.shuffledFaces = [];
 
 function addCardFaces() {
-	for (let i = 0; i < emptyCards.length; i++) {
-		let indexFaces = shuffledCardFaces[i];
-		emptyCards[i].innerHTML = `<i class="fa ${indexFaces}"></i>`;
+	for (let i = 0; i < cards.list.length; i++) {
+		let indexFaces = cards.shuffledFaces[i];
+		cards.list[i].innerHTML = `<i class="fa ${indexFaces}"></i>`;
 	}
 }
 
@@ -54,7 +76,7 @@ function shuffle(array) {
 		array[currentIndex] = array[randomIndex];
 		array[randomIndex] = temporaryValue;
 	}
-	shuffledCardFaces = array;
+	cards.shuffledFaces = array;
 }
 
 
@@ -63,31 +85,31 @@ function shuffle(array) {
 
 *@description Flip, click, and completion handlers for each card and its match.
 */
-let openCards = [];
+
 let cardPrevious;
 $(".card").on("click", function () {
 	if (this !== cardPrevious && this.className !== "card match") {
-		if (openCards.length < 2) {
+		if (cards.open.length < 2) {
 			let thisCard = $(this);
 
 			thisCard.toggleClass("show open");
-			openCards.push(thisCard);
+			cards.open.push(thisCard);
 		}
 
-		if (openCards.length == 2) {
-			moveCount++;
+		if (cards.open.length == 2) {
+			move.count++;
 			handleMoves();
-			let cardOne = openCards[0][0].children[0].className;
-			let cardTwo = openCards[1][0].children[0].className;
+			let cardOne = cards.open[0][0].children[0].className;
+			let cardTwo = cards.open[1][0].children[0].className;
 			if (cardOne === cardTwo) {
 				handleMatch();
-				openCards = [];
+				cards.open = [];
 				setTimeout(function () {
 					monitorCompletion();
 				}, 2000);
 			} else {
 				flipBack();
-				openCards = [];
+				cards.open = [];
 			}
 		}
 	}
@@ -96,7 +118,7 @@ $(".card").on("click", function () {
 
 
 function flipBack() {
-	openCards.forEach(flip => {
+	cards.open.forEach(flip => {
 		setTimeout(function () {
 			flip.toggleClass("open");
 			flip.toggleClass("incorrect");
@@ -108,7 +130,7 @@ function flipBack() {
 }
 
 function handleMatch() {
-	openCards.forEach(flip => {
+	cards.open.forEach(flip => {
 		setTimeout(function () {
 			flip.toggleClass("open show");
 			flip.toggleClass("match");
@@ -143,6 +165,7 @@ $(".multiplier").on("click", function () {
 	console.log(thisCard);
 	if (thisCard[0].className !== "multiplier show open") {
 		resetMultiplier();
+		multiplierValue == 0 ? handleBombModal() : multiplierValue;
 		thisCard[0].innerHTML = `<i class="fa ${
       multiplierOptions[multiplierIndex]
     }"></i>`;
@@ -162,7 +185,7 @@ function resetMultiplier() {
 		(multiplierValue = 4) : multiplierIndex === 12 ?
 		(multiplierValue = 5) : multiplierIndex == 13 ?
 		(multiplierValue = 6) : (multiplierValue = 0);
-    multiplierValue == 0 ? handleBombModal() : multiplierValue;
+
 
 }
 
@@ -173,45 +196,36 @@ function resetMultiplier() {
 *@description handler for the move counter and for the rating assignment.
 */
 let star = {
-  count: 5,
-  bonus: false,
-  bonusAmount: 0,
-  string: ""
+	count: 5,
+	bonus: false,
+	bonusAmount: 0,
+	string: ""
 };
 
-let time = {
-  seconds: 0,
-  minutes: 0,
-  secondsElapsed: 0,
-  interval: 0,
-  bonus: false,
-  bonusAmount: 0,
-  string: ""
-}
 
-let moveCount = 0;
+
 
 function handleMoves() {
 	handleRating();
-	if (moveCount == 1) {
-		document.querySelector(".moves").textContent = `${moveCount} Move`;
+	if (move.count == 1) {
+		document.querySelector(".moves").textContent = `${move.count} Move`;
 	} else {
-		document.querySelector(".moves").textContent = `${moveCount} Moves`;
+		document.querySelector(".moves").textContent = `${move.count} Moves`;
 	}
 }
 
 function handleRating() {
 	let stars = document.getElementsByClassName("star");
-	if (moveCount == 16) {
+	if (move.count == 16) {
 		stars[4].children[0].className = "fa fa-star-o";
 		star.count--;
-	} else if (moveCount == 22) {
+	} else if (move.count == 22) {
 		stars[3].children[0].className = "fa fa-star-o";
 		star.count--;
-	} else if (moveCount == 28) {
+	} else if (move.count == 28) {
 		stars[2].children[0].className = "fa fa-star-o";
 		star.count--;
-	} else if (moveCount == 34) {
+	} else if (move.count == 34) {
 		stars[1].children[0].className = "fa fa-star-o";
 		star.count--;
 	}
@@ -223,10 +237,6 @@ function handleRating() {
 
 *@description This timer was built using setInterval. The timer is started in the newGame function, and is cleared if a game is restarted. The time is updated every second.
 */
-let secondsElapsed = 0;
-let seconds = 0;
-let timeInterval = 0;
-let minutes = 0;
 
 function startTimer() {
 	time.interval = setInterval(updateTime, 1000);
@@ -272,18 +282,18 @@ function stopTimer() {
 */
 function handleModal() {
 
-  let addHTML = "";
-  for (let i = 0; i < star.count; i++) {
-    addHTML +=  '<li class="star"><i class="fa fa-star"></i></li> '
-  }
-  star.bonus === true ? star.string = "Bonus" : star.string  = "Penalty";
-  time.bonus === true ? time.string = "Bonus" : time.string  = "Penalty";
+	let addHTML = "";
+	for (let i = 0; i < star.count; i++) {
+		addHTML += '<li class="star"><i class="fa fa-star"></i></li> '
+	}
+	star.bonus === true ? star.string = "Bonus" : star.string = "Penalty";
+	time.bonus === true ? time.string = "Bonus" : time.string = "Penalty";
 	modal.innerHTML = `
   <div class="modal-content">
     <span class="close"><i class="fa fa-times"></i></span>
     <div class="modal-text">
       <h2>Congratulations</h2>
-      <ul class="star-display">${addHTML} <br> ${moveCount} Moves <br> ${document.getElementsByClassName("timer")[0].textContent}</ul>
+      <ul class="star-display">${addHTML} <br> ${move.count} Moves <br> ${document.getElementsByClassName("timer")[0].textContent}</ul>
       <h4>Prize Value: $45,000</h4>
       <h4>Star ${star.string}: $45,000</h4>
       <h4>Time ${time.string}: $45,000</h4>
@@ -306,7 +316,7 @@ function handleModal() {
 }
 
 function handleBombModal() {
-modal.style.display = "flex";
+	modal.style.display = "flex";
 	modal.innerHTML = `
   <div class="modal-content">
     <span class="close"><i class="fa fa-times"></i></span>
@@ -318,12 +328,12 @@ modal.style.display = "flex";
     <button class="try-again">Try Again</button>
     `;
 
-    let tryAgain = document.getElementsByClassName("try-again")[0];
-    tryAgain.onclick = function () {
-      modal.style.display = "none";
-      resetMultiplier();
-      clearTimer();
-      newGame();
+	let tryAgain = document.getElementsByClassName("try-again")[0];
+	tryAgain.onclick = function () {
+		modal.style.display = "none";
+		resetMultiplier();
+		clearTimer();
+		newGame();
 
 
 
@@ -338,19 +348,19 @@ modal.style.display = "flex";
 let totalScore = 0;
 
 function moveScore() {
-	if (star.count === 5 && moveCount === 9) {
-		totalScore += 12500;
+	if (star.count === 5 && move.count === 9) {
+		totalScore += move.fiveStarPerfect;
 
 	} else {
 		star.count === 5 ?
-			(totalScore += 2500) :
+			(totalScore += move.fiveStar) :
 			star.count === 3 ?
-			(totalScore -= 2500) :
+			(totalScore -= move.threeStar) :
 			star.count === 2 ?
-			(totalScore -= 7500) :
-			star.count === 1 ? (totalScore -= 12500) : (totalScore += 0);
+			(totalScore -= move.twoStar) :
+			star.count === 1 ? (totalScore -= move.OneStar) : (totalScore += move.fourStar);
 	}
-  star.count >= 4 ? star.bonus = true : star.bonus = false;
+	star.count >= 4 ? star.bonus = true : star.bonus = false;
 }
 
 function timeScore() {
@@ -361,7 +371,7 @@ function timeScore() {
 		time.minutes <= 180 ?
 		(totalScore += 0) :
 		time.minutes <= 240 ? (totalScore -= 2500) : (totalScore -= 5000);
-  time.minutes <= 180 ? time.bonus = true : time.bonus = false;
+	time.minutes <= 180 ? time.bonus = true : time.bonus = false;
 }
 
 function handleFinalScore() {
