@@ -1,6 +1,6 @@
-document.body.onload = newGame();
-function newGame() {
-	setTimeout(function () {
+
+ let newGame = () => {
+	setTimeout(() => {
 		cards.list.forEach(card => {
 			card.className = "card";
 		});
@@ -13,8 +13,9 @@ function newGame() {
     star.reset();
 	}, 500);
 }
+document.body.onload = newGame();
 
-$(".restart").on("click", function () {
+$(".restart").on("click", () => {
 	multiplier.reset();
 	time.clear();
 	newGame();
@@ -37,11 +38,11 @@ let cards = {
 	previous: null,
 	flipBack() {
 		cards.open.forEach(flip => {
-			setTimeout(function () {
+			setTimeout(() => {
 				flip.toggleClass("open");
 				flip.toggleClass("incorrect");
 			}, 500);
-			setTimeout(function () {
+			setTimeout(() => {
 				flip.toggleClass("show incorrect");
 			}, 1000);
 		});
@@ -54,7 +55,7 @@ let cards = {
 	},
 	handleMatch() {
 		cards.open.forEach(flip => {
-			setTimeout(function () {
+			setTimeout(() => {
 				flip.toggleClass("open show");
 				flip.toggleClass("match");
 			}, 500);
@@ -93,7 +94,7 @@ $(".card").on("click", function () {
 			if (cardOne === cardTwo) {
 				cards.handleMatch();
 				cards.open = [];
-				setTimeout(function () {
+				setTimeout(() => {
 					monitorCompletion();
 				}, 2000);
 			} else {
@@ -106,7 +107,7 @@ $(".card").on("click", function () {
 });
 
 
-function monitorCompletion() {
+let monitorCompletion = () => {
 	let allCards = document.querySelectorAll(".card");
 	let matchedCards = document.querySelectorAll(".card.match");
 	if (allCards.length === matchedCards.length) {
@@ -263,7 +264,7 @@ let time = {
 
 *@description When the game is complete, a modal will pop up congratulating the user and giving the final score value along with the break down of each item (move count, stars, time, etc)
 */
-function handleModal() {
+const handleModal = () => {
 	let addHTML = "";
 	for (let i = 0; i < star.count; i++) {
 		addHTML += '<li class="star"><i class="fa fa-star"></i></li> '
@@ -286,17 +287,17 @@ function handleModal() {
     </div>`;
 	let close = document.getElementsByClassName("close")[0];
 	modal.style.display = "flex";
-	close.onclick = function () {
+	close.onclick = () => {
 		modal.style.display = "none";
 	};
-	window.onclick = function (event) {
+	window.onclick = (event) => {
 		if (event.target == modal) {
 			modal.style.display = "none";
 		}
 	};
 }
 
-function handleBombModal() {
+ const handleBombModal = () => {
 	modal.style.display = "flex";
 	modal.innerHTML = `
   <div class="modal-content">
@@ -310,7 +311,7 @@ function handleBombModal() {
     `;
 
 	let tryAgain = document.getElementsByClassName("try-again")[0];
-	tryAgain.onclick = function () {
+	tryAgain.onclick = () => {
 		modal.style.display = "none";
 		multiplier.reset();
 		time.clear();
@@ -324,7 +325,7 @@ function handleBombModal() {
 */
 let totalScore = 0;
 
-function moveScore() {
+const moveScore = () => {
 	if (star.count === 5 && move.count === 9) {
 		totalScore += 12500;
 
@@ -340,7 +341,7 @@ function moveScore() {
 	star.count >= 4 ? star.bonus = true : star.bonus = false;
 }
 
-function timeScore() {
+const timeScore = () => {
 	time.secondsElapsed <= 60 ?
 		(totalScore += 5000) :
 		time.minutes <= 120 ?
@@ -351,7 +352,7 @@ function timeScore() {
 	time.minutes <= 180 ? time.bonus = true : time.bonus = false;
 }
 
-function handleFinalScore() {
+const handleFinalScore = () => {
 	moveScore();
 	timeScore();
 	if (multiplier.isClicked === true) {
