@@ -10,6 +10,7 @@ function newGame() {
 		move.handleMoves();
 		cards.open = [];
 		time.start();
+    star.reset();
 	}, 500);
 }
 
@@ -169,7 +170,12 @@ let star = {
 	bonus: false,
 	bonusAmount: 0,
 	string: "",
-
+  reset() {
+    let stars = document.getElementsByClassName("star");
+    star.count = 5;
+    for (let i = 0; i < star.count; i++)
+    stars[i].children[0].className = "fa fa-star";
+  }
 };
 
 
@@ -273,7 +279,6 @@ function handleModal() {
       <h4>Prize Value: $45,000</h4>
       <h4>Star ${star.string}: $45,000</h4>
       <h4>Time ${time.string}: $45,000</h4>
-
       <h4>Score Multiplier: ${multiplier.value} X</h4>
       <h2>TOTAL: ${totalScore}</h2>
       </div>
