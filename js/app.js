@@ -1,4 +1,30 @@
 document.body.onload = newGame();
+function newGame() {
+	setTimeout(function () {
+		cards.list.forEach(card => {
+			card.className = "card";
+		});
+		cards.shuffle(cards.faces);
+		cards.addFaces();
+		move.count = 0;
+		move.handleMoves();
+		cards.open = [];
+		time.start();
+	}, 500);
+}
+
+$(".restart").on("click", function () {
+	multiplier.reset();
+	time.clear();
+	newGame();
+});
+
+/**
+* C A R D S
+
+*@description Flip, click, and completion handlers for each card and its match.
+*/
+// Shuffle function from http://stackoverflow.com/a/2450976
 
 let cards = {
 	list: document.querySelectorAll(".card"),
@@ -32,70 +58,22 @@ let cards = {
 				flip.toggleClass("match");
 			}, 500);
 		});
-	}
+	},
+  shuffle(array) {
+  	var currentIndex = array.length,
+  		temporaryValue,
+  		randomIndex;
+
+  	while (currentIndex !== 0) {
+  		randomIndex = Math.floor(Math.random() * currentIndex);
+  		currentIndex -= 1;
+  		temporaryValue = array[currentIndex];
+  		array[currentIndex] = array[randomIndex];
+  		array[randomIndex] = temporaryValue;
+  	}
+  	cards.shuffledFaces = array;
+  }
 }
-
-let time = {
-	seconds: 0,
-	minutes: 0,
-	secondsElapsed: 0,
-	interval: 0,
-	bonus: false,
-	bonusAmount: 0,
-	string: ""
-}
-
-
-function newGame() {
-	setTimeout(function () {
-		cards.list.forEach(card => {
-			card.className = "card";
-		});
-		shuffle(cards.faces);
-		cards.addFaces();
-		move.count = 0;
-		move.handleMoves();
-		cards.open = [];
-		startTimer();
-	}, 500);
-}
-
-$(".restart").on("click", function () {
-	multiplier.reset();
-	clearTimer();
-	newGame();
-});
-
-/**
-* C A R D  F A C E S
-
-*@description Flip, click, and completion handlers for each card and its match.
-*/
-
-
-// Shuffle function from http://stackoverflow.com/a/2450976
-function shuffle(array) {
-	var currentIndex = array.length,
-		temporaryValue,
-		randomIndex;
-
-	while (currentIndex !== 0) {
-		randomIndex = Math.floor(Math.random() * currentIndex);
-		currentIndex -= 1;
-		temporaryValue = array[currentIndex];
-		array[currentIndex] = array[randomIndex];
-		array[randomIndex] = temporaryValue;
-	}
-	cards.shuffledFaces = array;
-}
-
-
-/**
-* C A R D S
-
-*@description Flip, click, and completion handlers for each card and its match.
-*/
-
 
 $(".card").on("click", function () {
 	if (this !== cards.previous && this.className !== "card match") {
@@ -134,7 +112,7 @@ function monitorCompletion() {
 		totalScore = 45000;
 		handleFinalScore();
 		handleModal();
-		stopTimer();
+		time.stop();
 	}
 }
 /**
@@ -151,18 +129,18 @@ let multiplier = {
 	value: 0,
 	index: 0,
 	isClicked: false,
-  reset() {
-  	document.getElementsByClassName("multiplier")[0].className = "multiplier";
-  	multiplier.index = Math.floor(Math.random() * multiplier.options.length);
-  	multiplier.index >= 0 && multiplier.index <= 3 ?
-  		(multiplier.value = 0) : multiplier.index >= 4 && multiplier.index <= 6 ?
-  		(multiplier.value = 1) : multiplier.index >= 7 && multiplier.index <= 9 ?
-  		(multiplier.value = 2) : multiplier.index === 10 ?
-  		(multiplier.value = 3) : multiplier.index === 11 ?
-  		(multiplier.value = 4) : multiplier.index === 12 ?
-  		(multiplier.value = 5) : multiplier.index == 13 ?
-  		(multiplier.value = 6) : (multiplier.value = 0);
-  }
+	reset() {
+		document.getElementsByClassName("multiplier")[0].className = "multiplier";
+		multiplier.index = Math.floor(Math.random() * multiplier.options.length);
+		multiplier.index >= 0 && multiplier.index <= 3 ?
+			(multiplier.value = 0) : multiplier.index >= 4 && multiplier.index <= 6 ?
+			(multiplier.value = 1) : multiplier.index >= 7 && multiplier.index <= 9 ?
+			(multiplier.value = 2) : multiplier.index === 10 ?
+			(multiplier.value = 3) : multiplier.index === 11 ?
+			(multiplier.value = 4) : multiplier.index === 12 ?
+			(multiplier.value = 5) : multiplier.index == 13 ?
+			(multiplier.value = 6) : (multiplier.value = 0);
+	}
 
 }
 
@@ -190,18 +168,13 @@ let star = {
 	count: 5,
 	bonus: false,
 	bonusAmount: 0,
-	string: ""
+	string: "",
+
 };
 
 
 let move = {
 	count: 0,
-	fiveStarPerfect: 12500,
-	fiveStar: 2500,
-	fourStar: 0,
-	threeStar: -2500,
-	twoStar: -7500,
-	oneStar: -12500,
 	handleRating() {
 		let stars = document.getElementsByClassName("star");
 		if (move.count == 16) {
@@ -234,43 +207,50 @@ let move = {
 
 *@description This timer was built using setInterval. The timer is started in the newGame function, and is cleared if a game is restarted. The time is updated every second.
 */
+let time = {
+	seconds: 0,
+	minutes: 0,
+	secondsElapsed: 0,
+	interval: 0,
+	bonus: false,
+	bonusAmount: 0,
+	string: "",
+  start() {
+    time.interval = setInterval(time.update, 1000);
+  },
+  update() {
+    time.secondsElapsed++;
+  	time.seconds = Math.floor(time.secondsElapsed % 60);
+  	time.minutes = Math.floor(time.secondsElapsed / 60);
+  	let timer = document.getElementsByClassName("timer")[0];
+  	if (time.minutes < 10 && time.seconds < 10) {
+  		timer.textContent = `0${time.minutes} : 0${time.seconds} `;
+  	} else if (time.minutes < 10) {
+  		timer.textContent = `0${time.minutes} : ${time.seconds} `;
+  	} else if (time.secomds < 10) {
+  		timer.textContent = `${minutes} : 0${seconds} `;
+  	}
+  },
+    clear() {
+      clearInterval(time.interval);
+    	time.seconds = 0;
+    	time.minutes = 0;
+    	time.secondsElapsed = 0;
+    	let timer = document.getElementsByClassName("timer")[0];
+    	if (time.minutes < 10 && time.seconds < 10) {
+    		timer.textContent = `0${time.minutes} : 0${time.seconds} `;
+    	} else if (time.minutes < 10) {
+    		timer.textContent = `0${time.minutes} : ${time.seconds} `;
+    	} else if (time.seconds < 10) {
+    		timer.textContent = `${time.minues} : 0${time.seconds} `;
+    	}
+    },
+    stop() {
+      clearInterval(time.interval);
+    }
 
-function startTimer() {
-	time.interval = setInterval(updateTime, 1000);
 }
 
-function updateTime() {
-	time.secondsElapsed++;
-	time.seconds = Math.floor(time.secondsElapsed % 60);
-	time.minutes = Math.floor(time.secondsElapsed / 60);
-	let timer = document.getElementsByClassName("timer")[0];
-	if (time.minutes < 10 && time.seconds < 10) {
-		timer.textContent = `0${time.minutes} : 0${time.seconds} `;
-	} else if (time.minutes < 10) {
-		timer.textContent = `0${time.minutes} : ${time.seconds} `;
-	} else if (time.secomds < 10) {
-		timer.textContent = `${minutes} : 0${seconds} `;
-	}
-}
-
-function clearTimer() {
-	clearInterval(time.interval);
-	time.seconds = 0;
-	time.minutes = 0;
-	time.secondsElapsed = 0;
-	let timer = document.getElementsByClassName("timer")[0];
-	if (time.minutes < 10 && time.seconds < 10) {
-		timer.textContent = `0${time.minutes} : 0${time.seconds} `;
-	} else if (time.minutes < 10) {
-		timer.textContent = `0${time.minutes} : ${time.seconds} `;
-	} else if (time.seconds < 10) {
-		timer.textContent = `${time.minues} : 0${time.seconds} `;
-	}
-}
-
-function stopTimer() {
-	clearInterval(time.interval);
-}
 
 /**
 * M O D A L
@@ -328,7 +308,7 @@ function handleBombModal() {
 	tryAgain.onclick = function () {
 		modal.style.display = "none";
 		multiplier.reset();
-		clearTimer();
+		time.clear();
 		newGame();
 	}
 }
@@ -341,16 +321,16 @@ let totalScore = 0;
 
 function moveScore() {
 	if (star.count === 5 && move.count === 9) {
-		totalScore += move.fiveStarPerfect;
+		totalScore += 12500;
 
 	} else {
 		star.count === 5 ?
-			(totalScore += move.fiveStar) :
+			(totalScore += 2500) :
 			star.count === 3 ?
-			(totalScore -= move.threeStar) :
+			(totalScore -= 2500) :
 			star.count === 2 ?
-			(totalScore -= move.twoStar) :
-			star.count === 1 ? (totalScore -= move.OneStar) : (totalScore += move.fourStar);
+			(totalScore -= 7500) :
+			star.count === 1 ? (totalScore -= 12500) : (totalScore += 0);
 	}
 	star.count >= 4 ? star.bonus = true : star.bonus = false;
 }
