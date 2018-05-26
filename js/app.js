@@ -1,4 +1,40 @@
 document.body.onload = newGame();
+
+let cards = {
+	list: document.querySelectorAll(".card"),
+	open: [],
+	faces: [
+    "fa-money-bill-wave", "fa-money-bill-wave", "fa-sun", "fa-sun", "fa-rocket", "fa-rocket", "fa-gem", "fa-gem", "fa-dice", "fa-dice", "fa-trophy", "fa-trophy", "fa-bell", "fa-bell", "fa-dollar-sign", "fa-dollar-sign", "fa-crown", "fa-crown"
+  ],
+	shuffledFaces: [],
+	previous: null,
+	flipBack() {
+		cards.open.forEach(flip => {
+			setTimeout(function () {
+				flip.toggleClass("open");
+				flip.toggleClass("incorrect");
+			}, 500);
+			setTimeout(function () {
+				flip.toggleClass("show incorrect");
+			}, 1000);
+		});
+	},
+	addFaces() {
+		for (let i = 0; i < cards.list.length; i++) {
+			let indexFaces = cards.shuffledFaces[i];
+			cards.list[i].innerHTML = `<i class="fa ${indexFaces}"></i>`;
+		}
+	},
+	handleMatch() {
+		cards.open.forEach(flip => {
+			setTimeout(function () {
+				flip.toggleClass("open show");
+				flip.toggleClass("match");
+			}, 500);
+		});
+	}
+}
+
 let time = {
 	seconds: 0,
 	minutes: 0,
@@ -9,24 +45,6 @@ let time = {
 	string: ""
 }
 
-let move = {
-	count: 0,
-	fiveStarPerfect: 12500,
-	fiveStar: 2500,
-	fourStar: 0,
-	threeStar: -2500,
-	twoStar: -7500,
-	oneStar: -12500,
-}
-
-let cards = {
-  list: document.querySelectorAll(".card"),
-  open: [],
-  faces:  [
-    "fa-money-bill-wave", "fa-money-bill-wave", "fa-sun", "fa-sun", "fa-rocket", "fa-rocket", "fa-gem", "fa-gem", "fa-dice", "fa-dice", "fa-trophy", "fa-trophy", "fa-bell", "fa-bell", "fa-dollar-sign", "fa-dollar-sign", "fa-crown", "fa-crown"
-  ],
-  shuffledFaces: []
-}
 
 function newGame() {
 	setTimeout(function () {
@@ -34,16 +52,16 @@ function newGame() {
 			card.className = "card";
 		});
 		shuffle(cards.faces);
-		addCardFaces();
+		cards.addFaces();
 		move.count = 0;
-		handleMoves();
+		move.handleMoves();
 		cards.open = [];
 		startTimer();
 	}, 500);
 }
 
 $(".restart").on("click", function () {
-	resetMultiplier();
+	multiplier.reset();
 	clearTimer();
 	newGame();
 });
@@ -54,14 +72,6 @@ $(".restart").on("click", function () {
 *@description Flip, click, and completion handlers for each card and its match.
 */
 
-cards.shuffledFaces = [];
-
-function addCardFaces() {
-	for (let i = 0; i < cards.list.length; i++) {
-		let indexFaces = cards.shuffledFaces[i];
-		cards.list[i].innerHTML = `<i class="fa ${indexFaces}"></i>`;
-	}
-}
 
 // Shuffle function from http://stackoverflow.com/a/2450976
 function shuffle(array) {
@@ -86,9 +96,9 @@ function shuffle(array) {
 *@description Flip, click, and completion handlers for each card and its match.
 */
 
-let cardPrevious;
+
 $(".card").on("click", function () {
-	if (this !== cardPrevious && this.className !== "card match") {
+	if (this !== cards.previous && this.className !== "card match") {
 		if (cards.open.length < 2) {
 			let thisCard = $(this);
 
@@ -98,45 +108,24 @@ $(".card").on("click", function () {
 
 		if (cards.open.length == 2) {
 			move.count++;
-			handleMoves();
+			move.handleMoves();
 			let cardOne = cards.open[0][0].children[0].className;
 			let cardTwo = cards.open[1][0].children[0].className;
 			if (cardOne === cardTwo) {
-				handleMatch();
+				cards.handleMatch();
 				cards.open = [];
 				setTimeout(function () {
 					monitorCompletion();
 				}, 2000);
 			} else {
-				flipBack();
+				cards.flipBack();
 				cards.open = [];
 			}
 		}
 	}
-	cardPrevious = this;
+	cards.previous = this;
 });
 
-
-function flipBack() {
-	cards.open.forEach(flip => {
-		setTimeout(function () {
-			flip.toggleClass("open");
-			flip.toggleClass("incorrect");
-		}, 500);
-		setTimeout(function () {
-			flip.toggleClass("show incorrect");
-		}, 1000);
-	});
-}
-
-function handleMatch() {
-	cards.open.forEach(flip => {
-		setTimeout(function () {
-			flip.toggleClass("open show");
-			flip.toggleClass("match");
-		}, 500);
-	});
-}
 
 function monitorCompletion() {
 	let allCards = document.querySelectorAll(".card");
@@ -153,41 +142,43 @@ function monitorCompletion() {
 
 *@description On the clicking of the multiplier, a multiplier value is assigned and this multiplier is used to calculate the final score. If not clicked, it doesn't play a role. Multiplier seperate from other cards.
 */
-let multiplierOptions = [
-  "fa-bomb", "fa-bomb", "fa-bomb", "fa-bomb", "fa-dice-one", "fa-dice-one", "fa-dice-one", "fa-dice-two", "fa-dice-two", "fa-dice-two", "fa-dice-three", "fa-dice-four", "fa-dice-five", "fa-dice-six"
-];
-let multiplierValue = 0;
-let multiplierIndex;
-let multiplierIsClicked = false;
+
+
+let multiplier = {
+	options: [
+    "fa-bomb", "fa-bomb", "fa-bomb", "fa-bomb", "fa-dice-one", "fa-dice-one", "fa-dice-one", "fa-dice-two", "fa-dice-two", "fa-dice-two", "fa-dice-three", "fa-dice-four", "fa-dice-five", "fa-dice-six"
+  ],
+	value: 0,
+	index: 0,
+	isClicked: false,
+  reset() {
+  	document.getElementsByClassName("multiplier")[0].className = "multiplier";
+  	multiplier.index = Math.floor(Math.random() * multiplier.options.length);
+  	multiplier.index >= 0 && multiplier.index <= 3 ?
+  		(multiplier.value = 0) : multiplier.index >= 4 && multiplier.index <= 6 ?
+  		(multiplier.value = 1) : multiplier.index >= 7 && multiplier.index <= 9 ?
+  		(multiplier.value = 2) : multiplier.index === 10 ?
+  		(multiplier.value = 3) : multiplier.index === 11 ?
+  		(multiplier.value = 4) : multiplier.index === 12 ?
+  		(multiplier.value = 5) : multiplier.index == 13 ?
+  		(multiplier.value = 6) : (multiplier.value = 0);
+  }
+
+}
 
 $(".multiplier").on("click", function () {
 	let thisCard = $(this);
 	console.log(thisCard);
 	if (thisCard[0].className !== "multiplier show open") {
-		resetMultiplier();
-		multiplierValue == 0 ? handleBombModal() : multiplierValue;
+		multiplier.reset();
+		multiplier.value == 0 ? handleBombModal() : multiplier.value;
 		thisCard[0].innerHTML = `<i class="fa ${
-      multiplierOptions[multiplierIndex]
+      multiplier.options[multiplier.index]
     }"></i>`;
 		thisCard[0].className = "multiplier show open";
-		multiplierIsClicked = true;
+		multiplier.isClicked = true;
 	}
 });
-
-function resetMultiplier() {
-	document.getElementsByClassName("multiplier")[0].className = "multiplier";
-	multiplierIndex = Math.floor(Math.random() * multiplierOptions.length);
-	multiplierIndex >= 0 && multiplierIndex <= 3 ?
-		(multiplierValue = 0) : multiplierIndex >= 4 && multiplierIndex <= 6 ?
-		(multiplierValue = 1) : multiplierIndex >= 7 && multiplierIndex <= 9 ?
-		(multiplierValue = 2) : multiplierIndex === 10 ?
-		(multiplierValue = 3) : multiplierIndex === 11 ?
-		(multiplierValue = 4) : multiplierIndex === 12 ?
-		(multiplierValue = 5) : multiplierIndex == 13 ?
-		(multiplierValue = 6) : (multiplierValue = 0);
-
-
-}
 
 
 /**
@@ -203,34 +194,40 @@ let star = {
 };
 
 
-
-
-function handleMoves() {
-	handleRating();
-	if (move.count == 1) {
-		document.querySelector(".moves").textContent = `${move.count} Move`;
-	} else {
-		document.querySelector(".moves").textContent = `${move.count} Moves`;
+let move = {
+	count: 0,
+	fiveStarPerfect: 12500,
+	fiveStar: 2500,
+	fourStar: 0,
+	threeStar: -2500,
+	twoStar: -7500,
+	oneStar: -12500,
+	handleRating() {
+		let stars = document.getElementsByClassName("star");
+		if (move.count == 16) {
+			stars[4].children[0].className = "fa fa-star-o";
+			star.count--;
+		} else if (move.count == 22) {
+			stars[3].children[0].className = "fa fa-star-o";
+			star.count--;
+		} else if (move.count == 28) {
+			stars[2].children[0].className = "fa fa-star-o";
+			star.count--;
+		} else if (move.count == 34) {
+			stars[1].children[0].className = "fa fa-star-o";
+			star.count--;
+		}
+	},
+	handleMoves() {
+		move.handleRating();
+		if (move.count == 1) {
+			document.querySelector(".moves").textContent = `${move.count} Move`;
+		} else {
+			document.querySelector(".moves").textContent = `${move.count} Moves`;
+		}
 	}
 }
 
-function handleRating() {
-	let stars = document.getElementsByClassName("star");
-	if (move.count == 16) {
-		stars[4].children[0].className = "fa fa-star-o";
-		star.count--;
-	} else if (move.count == 22) {
-		stars[3].children[0].className = "fa fa-star-o";
-		star.count--;
-	} else if (move.count == 28) {
-		stars[2].children[0].className = "fa fa-star-o";
-		star.count--;
-	} else if (move.count == 34) {
-		stars[1].children[0].className = "fa fa-star-o";
-		star.count--;
-	}
-
-}
 
 /**
 * T I M E R
@@ -281,7 +278,6 @@ function stopTimer() {
 *@description When the game is complete, a modal will pop up congratulating the user and giving the final score value along with the break down of each item (move count, stars, time, etc)
 */
 function handleModal() {
-
 	let addHTML = "";
 	for (let i = 0; i < star.count; i++) {
 		addHTML += '<li class="star"><i class="fa fa-star"></i></li> '
@@ -298,7 +294,7 @@ function handleModal() {
       <h4>Star ${star.string}: $45,000</h4>
       <h4>Time ${time.string}: $45,000</h4>
 
-      <h4>Score Multiplier: ${multiplierValue} X</h4>
+      <h4>Score Multiplier: ${multiplier.value} X</h4>
       <h2>TOTAL: ${totalScore}</h2>
       </div>
 
@@ -331,14 +327,10 @@ function handleBombModal() {
 	let tryAgain = document.getElementsByClassName("try-again")[0];
 	tryAgain.onclick = function () {
 		modal.style.display = "none";
-		resetMultiplier();
+		multiplier.reset();
 		clearTimer();
 		newGame();
-
-
-
-
-	};
+	}
 }
 /**
 * S C O R I N G
@@ -377,8 +369,8 @@ function timeScore() {
 function handleFinalScore() {
 	moveScore();
 	timeScore();
-	if (multiplierIsClicked === true) {
-		totalScore *= multiplierValue;
+	if (multiplier.isClicked === true) {
+		totalScore *= multiplier.value;
 	}
 }
 
