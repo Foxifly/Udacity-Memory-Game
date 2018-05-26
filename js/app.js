@@ -111,7 +111,6 @@ let monitorCompletion = () => {
 	let allCards = document.querySelectorAll(".card");
 	let matchedCards = document.querySelectorAll(".card.match");
 	if (allCards.length === matchedCards.length) {
-		totalScore = 45000;
 		handleFinalScore();
 		handleModal();
 		time.stop();
@@ -278,11 +277,12 @@ const handleModal = () => {
       <h2>Congratulations</h2>
       <ul class="star-display">${addHTML} <br> ${move.count} Moves <br> ${document.getElementsByClassName("timer")[0].textContent}</ul>
       <h4>Prize Value: $45,000</h4>
-      <h4>Star ${star.string}: $45,000</h4>
-      <h4>Time ${time.string}: $45,000</h4>
+      <h4>Star ${star.string}: ${score.move}</h4>
+      <h4>Time ${time.string}: ${score.time}</h4>
       <h4>Score Multiplier: ${multiplier.value} X</h4>
-      <h2>TOTAL: ${totalScore}</h2>
+      <h2>TOTAL: ${score.total}</h2>
       </div>
+      <button class="play-again">Play Again</button>
 
     </div>`;
 	let close = document.getElementsByClassName("close")[0];
@@ -290,11 +290,13 @@ const handleModal = () => {
 	close.onclick = () => {
 		modal.style.display = "none";
 	};
-	window.onclick = (event) => {
-		if (event.target == modal) {
-			modal.style.display = "none";
-		}
-	};
+  let playAgain = document.getElementsByClassName("play-again")[0];
+	playAgain.onclick = () => {
+		modal.style.display = "none";
+		multiplier.reset();
+		time.clear();
+		newGame();
+	}
 }
 
  const handleBombModal = () => {
@@ -323,41 +325,48 @@ const handleModal = () => {
 
 *@description Three functions that are used to calculate the total user score. This score will translate to the amount of 'money' gained from the lottery. It takes into account the move count, minute count, and the multiplier at the bottom of the board.If the multiplier isn't clicked, it will just calculate the score based on the move score and time score.
 */
-let totalScore = 0;
+let score = {
+  total: 0,
+  move: 0,
+  time: 0
+}
+
 
 const moveScore = () => {
 	if (star.count === 5 && move.count === 9) {
-		totalScore += 12500;
+		score.move = 12500;
 
 	} else {
 		star.count === 5 ?
-			(totalScore += 2500) :
+			(score.move = 2500) :
 			star.count === 3 ?
-			(totalScore -= 2500) :
+			(score.move = -2500) :
 			star.count === 2 ?
-			(totalScore -= 7500) :
-			star.count === 1 ? (totalScore -= 12500) : (totalScore += 0);
+			(score.move = -7500) :
+			star.count === 1 ? (score.move = -12500) : (score.move = 0);
 	}
 	star.count >= 4 ? star.bonus = true : star.bonus = false;
 }
 
 const timeScore = () => {
 	time.secondsElapsed <= 60 ?
-		(totalScore += 5000) :
+		(score.time = 5000) :
 		time.minutes <= 120 ?
-		(totalScore += 2500) :
+		(score.time = 2500) :
 		time.minutes <= 180 ?
-		(totalScore += 0) :
-		time.minutes <= 240 ? (totalScore -= 2500) : (totalScore -= 5000);
+		(score.time = 0) :
+		time.minutes <= 240 ? (score.time = -2500) : (score.time = -5000);
 	time.minutes <= 180 ? time.bonus = true : time.bonus = false;
 }
 
 const handleFinalScore = () => {
 	moveScore();
 	timeScore();
+  score.total += (score.move + score.time + 45000);
 	if (multiplier.isClicked === true) {
-		totalScore *= multiplier.value;
+		score.total *= multiplier.value;
 	}
+  return score.total;
 }
 
 //NEED TO FIX STAR COUNT ON RESET GAME
