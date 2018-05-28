@@ -171,18 +171,19 @@ let star = {
 	bonusAmount: 0,
 	string: "",
   reset() {
-    let stars = document.getElementsByClassName("star");
+    let stars = document.getElementsByClassName("rate-star");
     star.count = 5;
-    for (let i = 0; i < star.count; i++)
+    for (let i = 0; i < star.count; i++) {
     stars[i].children[0].className = "fa fa-star";
   }
+}
 };
 
 
 let move = {
 	count: 0,
 	handleRating() {
-		let stars = document.getElementsByClassName("star");
+		let stars = document.getElementsByClassName("rate-star");
 		if (move.count == 16) {
 			stars[4].children[0].className = "fa fa-star-o";
 			star.count--;
@@ -293,6 +294,7 @@ const handleModal = () => {
   let playAgain = document.getElementsByClassName("play-again")[0];
 	playAgain.onclick = () => {
 		modal.style.display = "none";
+    star.reset();
 		multiplier.reset();
 		time.clear();
 		newGame();
@@ -315,6 +317,7 @@ const handleModal = () => {
 	let tryAgain = document.getElementsByClassName("try-again")[0];
 	tryAgain.onclick = () => {
 		modal.style.display = "none";
+    star.reset();
 		multiplier.reset();
 		time.clear();
 		newGame();
