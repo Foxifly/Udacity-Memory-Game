@@ -1,12 +1,41 @@
+/*
+Animations
+*/
+
+@keyframes shake {
+  10% {
+    transform: translate(1px, 1px) rotate(1deg);
+  }
+  25% {
+    transform: translate(-1px, -1px) rotate(0deg);
+  }
+  50% {
+    transform: translate(1px, 1px) rotate(-1deg);
+  }
+  75% {
+    transform: translate(-1px, -1px) rotate(0deg);
+  }
+  100% {
+    transform: translate(0px, 0px) rotate(1deg);
+  }
+}
+
+/*
+Main Elements
+*/
+
 html {
   box-sizing: border-box;
 }
 
-*, *::before, *::after {
+*,
+*::before,
+*::after {
   box-sizing: inherit;
 }
 
-html, body {
+html,
+body {
   width: 100%;
   height: 100%;
   margin: 0;
@@ -17,33 +46,9 @@ body {
   background: #ffffff url("../img/geometry2.png");
 }
 
-h2 {
-  color: green;
-  font-family: "Bangers";
-  font-size: 38px;
-  text-align: center;
-  letter-spacing: 2px;
-}
-
-.container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-}
-
-.lottery-container {
-  width: 50%;
-  background: linear-gradient(160deg, #1b0926 0%, #1b0926 100%);
-  box-shadow: 12px 15px 20px 0 rgba(46, 61, 73, 0.5);
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-items: center;
-  border: 10px solid #8f739f;
-  border-radius: 10px;
-}
-
+/*
+Headings
+*/
 h1 {
   font-family: "Open Sans", sans-serif;
   margin: 0 0 10px 0;
@@ -55,8 +60,55 @@ h1 {
   font-family: "Bangers", cursive;
 }
 
+h2 {
+  color: green;
+  font-family: "Bangers";
+  font-size: 38px;
+  text-align: center;
+  letter-spacing: 2px;
+}
+
+h3 {
+  font-family: "Bubblegum Sans";
+  font-size: 20px;
+}
+
 header {
   width: 100%;
+}
+
+.sub-heading {
+  color: yellow;
+  font-family: "Bangers";
+  font-size: 38px;
+  text-align: center;
+  letter-spacing: 2px;
+  padding: 0;
+  margin: 0;
+}
+
+/*
+Containers
+*/
+
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.lottery-container {
+  width: 50%;
+  box-shadow: 12px 15px 20px 0 rgba(46, 61, 73, 0.5);
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  border: 10px solid #c93730;
+  border-radius: 10px;
+  background-image: url(https://www.webpagefx.com/blog/images/cdn.designinstruct.com/files/237-vintage_starburst_textures/vintage_starburst_texture_13_darkred_red_preview.jpg);
+  background-size: cover;
 }
 
 .deck {
@@ -71,11 +123,15 @@ header {
   margin: 0 0 2em 0;
 }
 
-.multiplier, .deck .card {
+/*
+Cards
+*/
+.multiplier,
+.deck .card {
   height: 90px;
   width: 90px;
   border-radius: 500px;
-  background: #e3bc65;
+  background: #21868b;
   font-size: 0;
   color: #ffffff;
   cursor: pointer;
@@ -85,8 +141,12 @@ header {
   box-shadow: 5px 2px 20px 0 rgba(46, 61, 73, 0.5);
   background-image: url(http://www.free-icons-download.net/images/dollar-sign-icons-74073.png);
   background-size: cover;
-  border: 5px dashed #e37d65;
+  border: 2px dotted #d2e6e7;
 }
+
+/*
+Cards and Multiplier
+*/
 
 .multiplier {
   height: 50px;
@@ -101,36 +161,37 @@ header {
   margin: 5px;
 }
 
-.multiplier.open, .deck .card.open {
+.multiplier.open,
+.deck .card.open {
   transform: rotateY(0);
-  background: #7d65e3;
+  background: #218b5b;
   cursor: default;
-  border: none;
 }
 
-.multiplier.show, .deck .card.show {
+.multiplier.show,
+.deck .card.show {
   font-size: 33px;
 }
 
 .deck .card.match {
   cursor: default;
-  background: #658ce3;
+  background: #a54e76;
   font-size: 33px;
-  border: none;
 }
 
 .deck .card.incorrect {
   cursor: default;
-  background: #e3658c;
+  background: #c93730;
   font-size: 33px;
-  border: none;
+  animation: shake 0.4s;
 }
 
 /*
- * Styles for the Score Panel
+ Scoreboard
  */
 
-.star-display li, .score-panel .stars li {
+.star-display li,
+.score-panel .stars li {
   list-style: none;
   display: inline-block;
 }
@@ -141,14 +202,45 @@ header {
   font-family: "Bubblegum Sans";
 }
 
-.lose {
-  color: red;
+.score-panel,
+.dashboard {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  width: 100%;
+  font-family: "Bubblegum Sans";
+  font-size: 24px;
 }
 
-p.bomb-modal {
-  font-size: 40px;
-  color: #483a51;
+.stars {
+  font-family: "Bubblegum Sans";
+  font-size: 24px;
+  color: white;
 }
+
+.star-container,
+.multiplier-container {
+  width: 50%;
+  text-align: center;
+}
+
+.restart {
+  width: 100%;
+  cursor: pointer;
+  text-align: right;
+  margin: 15px 15px 0 0;
+  padding: 0;
+}
+
+.moves,
+.timer,
+.restart {
+  color: white;
+  width: 50%;
+  text-align: center;
+}
+
+/* Modal */
 
 .modal {
   display: none;
@@ -190,46 +282,16 @@ p.bomb-modal {
   width: 30%;
 }
 
+.lose {
+  color: red;
+}
+
+p.bomb-modal {
+  font-size: 40px;
+  color: #483a51;
+}
+
 .close {
   cursor: pointer;
   float: right;
-}
-
-.moves, .timer, .restart {
-  color: white;
-  width: 50%;
-  text-align: center;
-}
-
-.score-panel, .dashboard {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: flex-start;
-  width: 100%;
-  font-family: "Bubblegum Sans";
-  font-size: 24px;
-}
-
-.stars {
-  font-family: "Bubblegum Sans";
-  font-size: 24px;
-  color: white;
-}
-
-.star-container, .multiplier-container {
-  width: 50%;
-  text-align: center;
-}
-
-.restart {
-  width: 100%;
-  cursor: pointer;
-  text-align: right;
-  margin: 15px 15px 0 0;
-  padding: 0;
-}
-
-h3 {
-  font-family: "Bubblegum Sans";
-  font-size: 20px;
 }
