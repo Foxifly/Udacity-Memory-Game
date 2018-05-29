@@ -1,5 +1,4 @@
-
- let newGame = () => {
+let newGame = () => {
 	setTimeout(() => {
 		cards.list.forEach(card => {
 			card.className = "card";
@@ -10,7 +9,7 @@
 		move.handleMoves();
 		cards.open = [];
 		time.start();
-    star.reset();
+		star.reset();
 	}, 500);
 }
 document.body.onload = newGame();
@@ -61,20 +60,20 @@ let cards = {
 			}, 500);
 		});
 	},
-  shuffle(array) {
-  	var currentIndex = array.length,
-  		temporaryValue,
-  		randomIndex;
+	shuffle(array) {
+		var currentIndex = array.length,
+			temporaryValue,
+			randomIndex;
 
-  	while (currentIndex !== 0) {
-  		randomIndex = Math.floor(Math.random() * currentIndex);
-  		currentIndex -= 1;
-  		temporaryValue = array[currentIndex];
-  		array[currentIndex] = array[randomIndex];
-  		array[randomIndex] = temporaryValue;
-  	}
-  	cards.shuffledFaces = array;
-  }
+		while (currentIndex !== 0) {
+			randomIndex = Math.floor(Math.random() * currentIndex);
+			currentIndex -= 1;
+			temporaryValue = array[currentIndex];
+			array[currentIndex] = array[randomIndex];
+			array[randomIndex] = temporaryValue;
+		}
+		cards.shuffledFaces = array;
+	}
 }
 
 $(".card").on("click", function () {
@@ -111,9 +110,11 @@ let monitorCompletion = () => {
 	let allCards = document.querySelectorAll(".card");
 	let matchedCards = document.querySelectorAll(".card.match");
 	if (allCards.length === matchedCards.length) {
+		time.stop();
 		handleFinalScore();
 		handleModal();
-		time.stop();
+
+
 	}
 }
 /**
@@ -170,13 +171,13 @@ let star = {
 	bonus: false,
 	bonusAmount: 0,
 	string: "",
-  reset() {
-    let stars = document.getElementsByClassName("rate-star");
-    star.count = 5;
-    for (let i = 0; i < star.count; i++) {
-    stars[i].children[0].className = "fa fa-star";
-  }
-}
+	reset() {
+		let stars = document.getElementsByClassName("rate-star");
+		star.count = 5;
+		for (let i = 0; i < star.count; i++) {
+			stars[i].children[0].className = "fa fa-star";
+		}
+	}
 };
 
 
@@ -222,39 +223,39 @@ let time = {
 	bonus: false,
 	bonusAmount: 0,
 	string: "",
-  start() {
-    time.interval = setInterval(time.update, 1000);
-  },
-  update() {
-    time.secondsElapsed++;
-  	time.seconds = Math.floor(time.secondsElapsed % 60);
-  	time.minutes = Math.floor(time.secondsElapsed / 60);
-  	let timer = document.getElementsByClassName("timer")[0];
-  	if (time.minutes < 10 && time.seconds < 10) {
-  		timer.textContent = `0${time.minutes} : 0${time.seconds} `;
-  	} else if (time.minutes < 10) {
-  		timer.textContent = `0${time.minutes} : ${time.seconds} `;
-  	} else if (time.secomds < 10) {
-  		timer.textContent = `${minutes} : 0${seconds} `;
-  	}
-  },
-    clear() {
-      clearInterval(time.interval);
-    	time.seconds = 0;
-    	time.minutes = 0;
-    	time.secondsElapsed = 0;
-    	let timer = document.getElementsByClassName("timer")[0];
-    	if (time.minutes < 10 && time.seconds < 10) {
-    		timer.textContent = `0${time.minutes} : 0${time.seconds} `;
-    	} else if (time.minutes < 10) {
-    		timer.textContent = `0${time.minutes} : ${time.seconds} `;
-    	} else if (time.seconds < 10) {
-    		timer.textContent = `${time.minues} : 0${time.seconds} `;
-    	}
-    },
-    stop() {
-      clearInterval(time.interval);
-    }
+	start() {
+		time.interval = setInterval(time.update, 1000);
+	},
+	update() {
+		time.secondsElapsed++;
+		time.seconds = Math.floor(time.secondsElapsed % 60);
+		time.minutes = Math.floor(time.secondsElapsed / 60);
+		let timer = document.getElementsByClassName("timer")[0];
+		if (time.minutes < 10 && time.seconds < 10) {
+			timer.textContent = `0${time.minutes} : 0${time.seconds} `;
+		} else if (time.minutes < 10) {
+			timer.textContent = `0${time.minutes} : ${time.seconds} `;
+		} else if (time.secomds < 10) {
+			timer.textContent = `${minutes} : 0${seconds} `;
+		}
+	},
+	clear() {
+		clearInterval(time.interval);
+		time.seconds = 0;
+		time.minutes = 0;
+		time.secondsElapsed = 0;
+		let timer = document.getElementsByClassName("timer")[0];
+		if (time.minutes < 10 && time.seconds < 10) {
+			timer.textContent = `0${time.minutes} : 0${time.seconds} `;
+		} else if (time.minutes < 10) {
+			timer.textContent = `0${time.minutes} : ${time.seconds} `;
+		} else if (time.seconds < 10) {
+			timer.textContent = `${time.minues} : 0${time.seconds} `;
+		}
+	},
+	stop() {
+		clearInterval(time.interval);
+	}
 
 }
 
@@ -278,10 +279,10 @@ const handleModal = () => {
       <h2>Congratulations</h2>
       <ul class="star-display">${addHTML} <br> ${move.count} Moves <br> ${document.getElementsByClassName("timer")[0].textContent}</ul>
       <h4>Prize Value: $45,000</h4>
-      <h4>Star ${star.string}: ${score.move}</h4>
-      <h4>Time ${time.string}: ${score.time}</h4>
+      <h4>Star ${star.string}: ${score.move.toLocaleString('en-US')}</h4>
+      <h4>Time ${time.string}: ${score.time.toLocaleString('en-US')}</h4>
       <h4>Score Multiplier: ${multiplier.value} X</h4>
-      <h2>TOTAL: ${score.total}</h2>
+      <h2>TOTAL: $${score.total.toLocaleString('en-US')}</h2>
       </div>
       <button class="play-again">Play Again</button>
 
@@ -291,17 +292,17 @@ const handleModal = () => {
 	close.onclick = () => {
 		modal.style.display = "none";
 	};
-  let playAgain = document.getElementsByClassName("play-again")[0];
+	let playAgain = document.getElementsByClassName("play-again")[0];
 	playAgain.onclick = () => {
 		modal.style.display = "none";
-    star.reset();
+		star.reset();
 		multiplier.reset();
 		time.clear();
 		newGame();
 	}
 }
 
- const handleBombModal = () => {
+const handleBombModal = () => {
 	modal.style.display = "flex";
 	modal.innerHTML = `
   <div class="modal-content">
@@ -317,7 +318,7 @@ const handleModal = () => {
 	let tryAgain = document.getElementsByClassName("try-again")[0];
 	tryAgain.onclick = () => {
 		modal.style.display = "none";
-    star.reset();
+		star.reset();
 		multiplier.reset();
 		time.clear();
 		newGame();
@@ -329,9 +330,9 @@ const handleModal = () => {
 *@description Three functions that are used to calculate the total user score. This score will translate to the amount of 'money' gained from the lottery. It takes into account the move count, minute count, and the multiplier at the bottom of the board.If the multiplier isn't clicked, it will just calculate the score based on the move score and time score.
 */
 let score = {
-  total: 0,
-  move: 0,
-  time: 0
+	total: 0,
+	move: 0,
+	time: 0
 }
 
 
@@ -363,13 +364,14 @@ const timeScore = () => {
 }
 
 const handleFinalScore = () => {
+	score.total = 0;
 	moveScore();
 	timeScore();
-  score.total += (score.move + score.time + 45000);
+	score.total += (score.move + score.time + 45000);
 	if (multiplier.isClicked === true) {
 		score.total *= multiplier.value;
 	}
-  return score.total;
+	return score.total;
 }
 
 //NEED TO FIX STAR COUNT ON RESET GAME

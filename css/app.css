@@ -20,6 +20,23 @@ Animations
   }
 }
 
+@keyframes grow {
+  0% {
+    transform: scale(1);
+  }
+  25% {
+    transform: scale(1.1);
+  }
+  50% {
+    transform: scale(1.2);
+  }
+  75% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
 /*
 Main Elements
 */
@@ -43,7 +60,7 @@ body {
 }
 
 body {
-  background: #ffffff url("../img/geometry2.png");
+  background-color: #e8f2f3;
 }
 
 /*
@@ -53,11 +70,12 @@ h1 {
   font-family: "Open Sans", sans-serif;
   margin: 0 0 10px 0;
   font-weight: bolder;
-  color: #ffcc00;
+  color: #ffdf00;
   font-size: 60px;
   letter-spacing: 3px;
   text-align: center;
   font-family: "Bangers", cursive;
+  text-shadow: 3px 3px black;
 }
 
 h2 {
@@ -67,7 +85,7 @@ h2 {
   text-align: center;
   letter-spacing: 2px;
 }
-
+h4,
 h3 {
   font-family: "Bubblegum Sans";
   font-size: 20px;
@@ -78,13 +96,19 @@ header {
 }
 
 .sub-heading {
-  color: yellow;
+  color: #fdec96;
   font-family: "Bangers";
-  font-size: 38px;
+  text-shadow: 3px 3px black;
+  font-size: 32px;
   text-align: center;
   letter-spacing: 2px;
   padding: 0;
   margin: 0;
+}
+
+.multiplier-description {
+  color: #fbdf4b;
+  text-align: center;
 }
 
 /*
@@ -120,7 +144,7 @@ Containers
   flex-wrap: wrap;
   justify-content: space-between;
   align-items: center;
-  margin: 0 0 2em 0;
+  margin: 0 0 1em 0;
 }
 
 /*
@@ -133,7 +157,7 @@ Cards
   border-radius: 500px;
   background: #21868b;
   font-size: 0;
-  color: #ffffff;
+  color: #fff;
   cursor: pointer;
   display: flex;
   justify-content: center;
@@ -163,7 +187,6 @@ Cards and Multiplier
 
 .multiplier.open,
 .deck .card.open {
-  transform: rotateY(0);
   background: #218b5b;
   cursor: default;
 }
@@ -173,10 +196,14 @@ Cards and Multiplier
   font-size: 33px;
 }
 
+.multiplier.show {
+  animation: grow 0.4s;
+}
 .deck .card.match {
   cursor: default;
   background: #a54e76;
   font-size: 33px;
+  animation: grow 0.4s;
 }
 
 .deck .card.incorrect {
@@ -222,14 +249,6 @@ Cards and Multiplier
 .multiplier-container {
   width: 50%;
   text-align: center;
-}
-
-.restart {
-  width: 100%;
-  cursor: pointer;
-  text-align: right;
-  margin: 15px 15px 0 0;
-  padding: 0;
 }
 
 .moves,
@@ -294,4 +313,23 @@ p.bomb-modal {
 .close {
   cursor: pointer;
   float: right;
+}
+
+.restart {
+  width: 100%;
+  cursor: pointer;
+  text-align: right;
+  margin: 15px 15px 0 0;
+  padding: 0;
+}
+
+/*Media Queries*/
+
+@media screen and (max-width: 660px) {
+  .lottery-container {
+    width: 95%;
+  }
+  .modal-content {
+    width: 85%;
+  }
 }
