@@ -135,6 +135,10 @@ Containers
   background-size: cover;
 }
 
+.sub-heading-container {
+  width: 100%;
+}
+
 .deck {
   width: 660px;
   min-height: 400px;
