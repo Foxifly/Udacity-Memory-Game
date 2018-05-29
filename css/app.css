@@ -37,6 +37,7 @@ Animations
     transform: scale(1);
   }
 }
+
 /*
 Main Elements
 */
@@ -45,14 +46,11 @@ html {
   box-sizing: border-box;
 }
 
-*,
-*::before,
-*::after {
+*, *::before, *::after {
   box-sizing: inherit;
 }
 
-html,
-body {
+html, body {
   width: 100%;
   height: 100%;
   margin: 0;
@@ -66,8 +64,8 @@ body {
 /*
 Headings
 */
+
 h1 {
-  font-family: "Open Sans", sans-serif;
   margin: 0 0 10px 0;
   font-weight: bolder;
   color: #ffdf00;
@@ -85,9 +83,9 @@ h2 {
   text-align: center;
   letter-spacing: 2px;
 }
-h4,
-h3 {
-  font-family: "Bubblegum Sans";
+
+h4, h3 {
+  font-family: "Bubblegum Sans", cursive;
   font-size: 20px;
 }
 
@@ -97,7 +95,7 @@ header {
 
 .sub-heading {
   color: #fdec96;
-  font-family: "Bangers";
+  font-family: "Bangers", cursive;
   text-shadow: 3px 3px black;
   font-size: 32px;
   text-align: center;
@@ -140,22 +138,25 @@ Containers
 }
 
 .deck {
-  width: 660px;
-  min-height: 400px;
-  padding: 32px 32px 0px 32px;
-  border-radius: 10px;
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
   align-items: center;
+  width: 660px;
+  min-height: 400px;
+  padding: 32px 32px 0px 32px;
+  border-radius: 10px;
   margin: 0 0 1em 0;
 }
 
 /*
 Cards
 */
-.multiplier,
-.deck .card {
+
+.multiplier, .card {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   height: 90px;
   width: 90px;
   border-radius: 500px;
@@ -163,9 +164,6 @@ Cards
   font-size: 0;
   color: #fff;
   cursor: pointer;
-  display: flex;
-  justify-content: center;
-  align-items: center;
   box-shadow: 5px 2px 20px 0 rgba(46, 61, 73, 0.5);
   background-image: url(http://www.free-icons-download.net/images/dollar-sign-icons-74073.png);
   background-size: cover;
@@ -185,32 +183,31 @@ Cards and Multiplier
 .multiplier-container p {
   color: white;
   font-size: 20px;
-  font-family: "Bubblegum Sans";
+  font-family: "Bubblegum Sans", cursive;
   margin: 5px;
 }
 
-.multiplier.open,
-.deck .card.open {
+.multiplier.open, .deck .card.open {
   background: #218b5b;
   cursor: default;
 }
 
-.multiplier.show,
-.deck .card.show {
+.multiplier.show, .card.show {
   font-size: 33px;
 }
 
 .multiplier.show {
   animation: grow 0.4s;
 }
-.deck .card.match {
+
+.match {
   cursor: default;
   background: #a54e76;
   font-size: 33px;
   animation: grow 0.4s;
 }
 
-.deck .card.incorrect {
+.incorrect {
   cursor: default;
   background: #c93730;
   font-size: 33px;
@@ -221,8 +218,7 @@ Cards and Multiplier
  Scoreboard
  */
 
-.star-display li,
-.score-panel .stars li {
+.star-display li, .score-panel .stars li {
   list-style: none;
   display: inline-block;
 }
@@ -230,34 +226,30 @@ Cards and Multiplier
 .star-display {
   padding: 0;
   font-size: 20px;
-  font-family: "Bubblegum Sans";
+  font-family: "Bubblegum Sans", cursive;
 }
 
-.score-panel,
-.dashboard {
+.score-panel, .dashboard {
   display: flex;
   flex-wrap: wrap;
   justify-content: flex-start;
   width: 100%;
-  font-family: "Bubblegum Sans";
+  font-family: "Bubblegum Sans", cursive;
   font-size: 24px;
 }
 
 .stars {
-  font-family: "Bubblegum Sans";
+  font-family: "Bubblegum Sans", cursive;
   font-size: 24px;
   color: white;
 }
 
-.star-container,
-.multiplier-container {
+.star-container, .multiplier-container {
   width: 50%;
   text-align: center;
 }
 
-.moves,
-.timer,
-.restart {
+.moves, .timer, .restart {
   color: white;
   width: 50%;
   text-align: center;
@@ -277,17 +269,17 @@ Cards and Multiplier
   height: 100%;
   overflow: auto;
 }
-.play-again,
-.try-again {
+
+.play-again, .try-again {
   background-color: #1b0926;
   color: white;
   font-size: 20px;
-  font-family: "Bubblegum Sans";
+  font-family: "Bubblegum Sans", cursive;
   padding: 10px 20px 10px 20px;
   border-radius: 10px;
 }
-.play-again:hover,
-.try-again:hover {
+
+.play-again:hover, .try-again:hover {
   background-color: #483a51;
   color: white;
   border-radius: 10px;
@@ -309,7 +301,7 @@ Cards and Multiplier
   color: red;
 }
 
-p.bomb-modal {
+.bomb-modal {
   font-size: 40px;
   color: #483a51;
 }

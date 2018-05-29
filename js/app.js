@@ -373,5 +373,3 @@ const handleFinalScore = () => {
 	}
 	return score.total;
 }
-
-//NEED TO FIX STAR COUNT ON RESET GAME
