@@ -4,9 +4,8 @@
 
 * [Introduction](https://github.com/Foxifly/Udacity-Memory-Game#introduction)
 * [How To Play](https://github.com/Foxifly/Udacity-Memory-Game#how-to-play)
-* [Dependencies](https://github.com/Foxifly/Udacity-Memory-Game#dependencies)
+* [Dependencies](https://github.com/Foxifly/Udacity-Memory-Game#dependencies-and-credits)
 * [Demonstration](https://github.com/Foxifly/Udacity-Memory-Game#demonstration)
-* [Credits](https://github.com/Foxifly/Udacity-Memory-Game#credits)
 
 ## Introduction
 
